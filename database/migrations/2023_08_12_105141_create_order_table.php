@@ -14,12 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('order', function (Blueprint $table) {
-            $table->id();
-            $table->string('costomer');
-            $table->string('phone');
-            $table->string('email');
-            $table->string('status');
-            $table->string('paket_id');
+            $table->id(11);
+            $table->string('costomer', 150);
+            $table->string('phone', 13);
+            $table->string('email', 50)->nullable();
+            $table->string('status', 25);
+            $table->string('paket_id', 11);
             $table->timestamps();
         });
     }
