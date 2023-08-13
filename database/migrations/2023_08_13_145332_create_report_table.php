@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('report', function (Blueprint $table) {
-            $table->id();
-            $table->string('member_id');
+            $table->id(11);
+            $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
             $table->integer('total_order');
             $table->integer('progress');
             $table->integer('canceled');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->date('start');
             $table->date('end');
             $table->timestamps();
-        });
+              });
     }
 
     /**
