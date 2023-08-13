@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
     use HasFactory;
-    protected $table = '';
+    protected $table = 'report';
     protected $fillable = [
         'name',
         'username',
@@ -16,6 +16,3 @@ class Report extends Model
         'scope',
     ];
 }
-
-
-
