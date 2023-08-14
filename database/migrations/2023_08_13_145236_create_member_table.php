@@ -14,15 +14,15 @@ class CreateMemberTable extends Migration
     public function up()
     {
         Schema::create('member', function (Blueprint $table) {
-            $table->id(11);
+            $table->id();
             $table->string('name', 150);
             $table->string('nik', 25); // Mengubah 'id' menjadi 'member_id'
             $table->string('address', 255);
             $table->string('phone', 13);
             $table->string('email', 50);
-            $table->foreign('laundry_id')->references('id')->on('laundry')->onDelete('cascade');
+            $table->foreignId('laundry_id')->constrained('laundry')->onDelete('cascade');
             $table->boolean('verify');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
 
         });
