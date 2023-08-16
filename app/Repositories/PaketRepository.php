@@ -2,26 +2,26 @@
 
 namespace App\Repositories;
 
-use App\Contracts\LaundryContract;
-use App\Models\Laundry;
+use App\Contracts\PaketContract;
+use App\Models\Paket;
 use App\Traits\HttpResponseModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
-class LaundryRepository implements LaundryContract
+class PaketRepository implements PaketContract
 {
     use HttpResponseModel;
 
-    private Laundry $laundryModel;
+    private Paket $paketModel;
     public function __construct()
     {
-        $this->laundryModel = new Laundry();
+        $this->paketModel = new Paket();
     }
     public function getAllPayload(array $payload)
     {
         try {
 
-            $data = $this->laundryModel->all();
+            $data = $this->paketModel->all();
 
             return $this->success($data, "success getting data");
         } catch (\Throwable $th) {
@@ -34,10 +34,10 @@ class LaundryRepository implements LaundryContract
     {
         try {
 
-            $find = $this->laundryModel->whereId($id)->first();
+            $find = $this->paketModel->whereId($id)->first();
 
             if (!$find) {
-                return $this->error('laundry not found', 404);
+                return $this->error('paket not found', 404);
             }
 
             return $this->success($find, "success getting data");
@@ -62,13 +62,13 @@ class LaundryRepository implements LaundryContract
                 $payload['updated_at'] = Carbon::now();
 
                 $result = [
-                    'data' => $this->laundryModel->whereId($id)->update($payload),
+                    'data' => $this->paketModel->whereId($id)->update($payload),
                     'message' => 'Updated data successfully'
                 ];
             } else {
 
                 $result = [
-                    'data' => $this->laundryModel->create($payload),
+                    'data' => $this->paketModel->create($payload),
                     'message' => 'Created data successfully'
                 ];
             }
@@ -90,7 +90,7 @@ class LaundryRepository implements LaundryContract
                 return $find;
             }
 
-            $data = $this->laundryModel->whereId($id)->delete();
+            $data = $this->paketModel->whereId($id)->delete();
 
             return $this->success($data, "success deleting data");
         } catch (\Throwable $th) {

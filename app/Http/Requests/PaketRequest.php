@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class LaundryRequest extends FormRequest
+class PaketRequest extends FormRequest
 {
     public function authorize()
     {
@@ -16,11 +16,10 @@ class LaundryRequest extends FormRequest
     public function rules()
     {
         return [
+            'laundry' => 'required|max:11',
             'name' => 'required|max:150',
-            'address' => 'required|max:255',
-            'phone' => 'required|max:255',
-            'email' => 'required|email|max:50',
-            'location' => 'required|max:255',
+            'description' => 'required',
+            'price' => 'required',
         ];
     }
 
