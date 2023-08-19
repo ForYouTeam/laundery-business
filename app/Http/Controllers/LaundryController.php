@@ -39,6 +39,7 @@ class LaundryController extends Controller
 
     public function deleteData(int $id)
     {
-
+        $result  = $this->laundryRepo->deletePayload($id);
+        return response()->json($result, $result['code']);
     }
 }
