@@ -21,7 +21,7 @@ class UserRepository implements UserContract
   {
     try {
 
-      $data = $this->userModel->all();
+      $data = $this->userModel->where('scope', 'admin')->all();
 
       return $this->success($data, "success getting data");
 
