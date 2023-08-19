@@ -39,6 +39,7 @@ class OrderController extends Controller
 
     public function deleteData(int $id)
     {
+        $result  = $this->orderRepo->deletePayload($id);
+        return response()->json($result, $result['code']);
     }
 }
-

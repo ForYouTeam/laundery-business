@@ -2,44 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\PaketContract;
-use App\Http\Requests\PaketRequest;
-use App\Repositories\PaketRepository;
+use App\Contracts\MemberContract;
+use App\Http\Requests\MemberRequest;
+use App\Repositories\MemberRepository;
 use Illuminate\Http\Request;
 
-class PaketController extends Controller
+class MemberController extends Controller
 {
-    private PaketContract $paketRepo;
+    private MemberContract $memberRepo;
     public function __construct()
     {
-        $this->paketRepo = new PaketRepository;
+        $this->memberRepo = new MemberRepository;
     }
 
     public function getAllData()
     {
-        $result = $this->paketRepo->getAllPayload([]);
+        $result = $this->memberRepo->getAllPayload([]);
 
         return response()->json($result, $result['code']);
     }
 
     public function getDataById(int $id)
     {
-        $result = $this->paketRepo->getPayloadById($id);
+        $result = $this->memberRepo->getPayloadById($id);
 
         return response()->json($result, $result['code']);
     }
 
-    public function upsertData(PaketRequest $request)
+    public function upsertData(MemberRequest $request)
     {
         $id = $request->id | null;
-        $result = $this->paketRepo->upsertPayload($id, $request->all());
+        $result = $this->memberRepo->upsertPayload($id, $request->all());
 
         return response()->json($result, $result['code']);
     }
 
     public function deleteData(int $id)
     {
-        $result  = $this->paketRepo->deletePayload($id);
+        $result  = $this->memberRepo->deletePayload($id);
         return response()->json($result, $result['code']);
     }
 }
