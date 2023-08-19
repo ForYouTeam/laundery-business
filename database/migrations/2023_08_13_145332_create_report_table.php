@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('report', function (Blueprint $table) {
-            $table->id(11);
+            $table->id();
             $table->foreignId('member_id')->nullable()->constrained('member')->onDelete('set null');
             $table->integer('total_order');
             $table->integer('progress');
