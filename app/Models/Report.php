@@ -10,9 +10,13 @@ class Report extends Model
     use HasFactory;
     protected $table = 'report';
     protected $fillable = [
-        'name',
-        'username',
-        'password',
-        'scope',
+        'member_id',
+        'total_order',
+        'progress',
+        'canceled',
+        'done',
+        'income',
+        'start',
+        'end',
     ];
 }

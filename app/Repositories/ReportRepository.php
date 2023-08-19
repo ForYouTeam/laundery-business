@@ -2,26 +2,26 @@
 
 namespace App\Repositories;
 
-use App\Contracts\UserContract;
-use App\Models\User;
+use App\Contracts\ReportContract;
+use App\Models\Report;
 use App\Traits\HttpResponseModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
-class UserRepository implements UserContract
+class ReportRepository implements ReportContract
 {
     use HttpResponseModel;
 
-    private User $userModel;
+    private Report $reportModel;
     public function __construct()
     {
-        $this->userModel = new User();
+        $this->reportModel = new Report();
     }
     public function getAllPayload(array $payload)
     {
         try {
 
-            $data = $this->userModel->where('scope', 'admin')->get();
+            $data = $this->reportModel->all();
 
             return $this->success($data, "success getting data");
         } catch (\Throwable $th) {
@@ -34,10 +34,10 @@ class UserRepository implements UserContract
     {
         try {
 
-            $find = $this->userModel->whereId($id)->first();
+            $find = $this->reportModel->whereId($id)->first();
 
             if (!$find) {
-                return $this->error('user not found', 404);
+                return $this->error('report not found', 404);
             }
 
             return $this->success($find, "success getting data");
@@ -51,8 +51,6 @@ class UserRepository implements UserContract
     {
         try {
 
-            $payload['password'] = Hash::make($payload['password']);
-
             if ($id) {
 
                 $find = $this->getPayloadById($id);
@@ -64,13 +62,13 @@ class UserRepository implements UserContract
                 $payload['updated_at'] = Carbon::now();
 
                 $result = [
-                    'data' => $this->userModel->whereId($id)->update($payload),
+                    'data' => $this->reportModel->whereId($id)->update($payload),
                     'message' => 'Updated data successfully'
                 ];
             } else {
 
                 $result = [
-                    'data' => $this->userModel->create($payload),
+                    'data' => $this->reportModel->create($payload),
                     'message' => 'Created data successfully'
                 ];
             }
@@ -92,7 +90,7 @@ class UserRepository implements UserContract
                 return $find;
             }
 
-            $data = $this->userModel->whereId($id)->delete();
+            $data = $this->reportModel->whereId($id)->delete();
 
             return $this->success($data, "success deleting data");
         } catch (\Throwable $th) {
