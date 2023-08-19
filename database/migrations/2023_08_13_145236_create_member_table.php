@@ -21,7 +21,7 @@ class CreateMemberTable extends Migration
             $table->string('phone', 13);
             $table->string('email', 50);
             $table->foreignId('laundry_id')->constrained('laundry')->onDelete('cascade');
-            $table->boolean('verify');
+            $table->boolean('verify')->default(false);
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
 
