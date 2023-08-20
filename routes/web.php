@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\LaundryController;
+use App\Http\Controllers\UserController;
+use App\Models\Laundry;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +17,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.master');
 });
+
+Route::prefix('user/')->group(function () {
+    return view('Admin.user.index');
+});
+
+Route::prefix('/laundry')->controller(LaundryController::class)->group(function () {
+    Route::get('/', 'index');
+});
+
+// Route::get('/web/domisili', function () {
+//     return view('web.layanan.domisili');
+// });
