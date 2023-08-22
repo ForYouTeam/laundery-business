@@ -15,6 +15,11 @@ class UserController extends Controller
         $this->userRepo = new UserRepository;
     }
 
+    public function index()
+    {
+        return view('admin.user.index');
+    }
+
     public function getAllData()
     {
         $result = $this->userRepo->getAllPayload([]);

@@ -20,14 +20,6 @@ Route::get('/', function () {
     return view('layouts.master');
 });
 
-Route::prefix('user/')->group(function () {
-    return view('Admin.user.index');
+Route::controller(UserController::class)->group(function() {
+    Route::get('/users', 'index')->name('user.view');
 });
-
-Route::prefix('/laundry')->controller(LaundryController::class)->group(function () {
-    Route::get('/', 'index');
-});
-
-// Route::get('/web/domisili', function () {
-//     return view('web.layanan.domisili');
-// });
