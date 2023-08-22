@@ -15,9 +15,9 @@ class LaundryController extends Controller
         $this->laundryRepo = new LaundryRepository;
     }
 
-
-    public function index() {
-        return view('Admin.laundry.index');
+    public function index()
+    {
+        return view('admin.laundry.index');
     }
 
     public function getAllData()

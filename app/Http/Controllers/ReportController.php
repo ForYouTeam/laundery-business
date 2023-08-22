@@ -15,6 +15,11 @@ class ReportController extends Controller
         $this->reportRepo = new ReportRepository;
     }
 
+    public function index()
+    {
+        return view('admin.report.index');
+    }
+
     public function getAllData()
     {
         $result = $this->reportRepo->getAllPayload([]);

@@ -15,6 +15,11 @@ class OrderController extends Controller
         $this->orderRepo = new OrderRepository;
     }
 
+    public function index()
+    {
+        return view('admin.order.index');
+    }
+
     public function getAllData()
     {
         $result = $this->orderRepo->getAllPayload([]);

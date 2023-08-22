@@ -15,6 +15,11 @@ class MemberController extends Controller
         $this->memberRepo = new MemberRepository;
     }
 
+    public function index()
+    {
+        return view('admin.member.index');
+    }
+
     public function getAllData()
     {
         $result = $this->memberRepo->getAllPayload([]);
