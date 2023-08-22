@@ -7,16 +7,86 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">hallo guys</h3>
-                    <a href="" class="btn btn-outline-primary">Tambah
-                        Data</a>
-                    <!-- ... -->
+                    <h3 class="card-title">Daftar Data User</h3>
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addUserModal">
+                        Tambah Data
+                    </button>
                 </div>
                 <!-- /.card-header -->
-
+                <div class="card-body">
+                    <table id="userTable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>username</th>
+                                <th>password</th>
+                                <th>scope</th>
+                                <th>aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>wandi</td>
+                                <td>wandi jelek</td>
+                                <td>wandijelek123</td>
+                                <td>te tau apa scope</td>
+                                <td>
+                                    <a href="#" class="btn btn-outline-primary btn-sm">Edit</a>
+                                    <a href="#" class="btn btn-outline-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                            <!-- Add more rows for other data -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.col -->
+            <!-- /.card -->
         </div>
-        <!-- /.row -->
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserModalLabel">Tambah Data User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add form fields here -->
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control" id="password" name="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="scope">Scope</label>
+                            <input type="text" class="form-control" id="scope" name="scope">
+                        </div>
+                        <!-- Add more form fields for other data -->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Tambah</button>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
