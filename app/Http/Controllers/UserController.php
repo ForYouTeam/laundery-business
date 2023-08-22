@@ -17,7 +17,8 @@ class UserController extends Controller
 
     public function index()
     {
-        return view('admin.user.index');
+        $data = $this->userRepo->getAllPayload([]);
+        return view('admin.user.index')->with('data', $data['data']);
     }
 
     public function getAllData()

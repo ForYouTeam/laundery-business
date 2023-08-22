@@ -20,23 +20,26 @@
                                 <th>id</th>
                                 <th>name</th>
                                 <th>username</th>
-                                <th>password</th>
                                 <th>scope</th>
                                 <th>aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($data as $d)
+                            @php
+                                $no = 0
+                            @endphp
                             <tr>
-                                <td>1</td>
-                                <td>wandi</td>
-                                <td>wandi jelek</td>
-                                <td>wandijelek123</td>
-                                <td>te tau apa scope</td>
+                                <td>{{$no++}}</td>
+                                <td>{{$d->name}}</td>
+                                <td>{{$d->username}}</td>
+                                <td>{{$d->scope}}</td>
                                 <td>
-                                    <a href="#" class="btn btn-outline-primary btn-sm">Edit</a>
-                                    <a href="#" class="btn btn-outline-danger btn-sm">Delete</a>
+                                    <button type="button" data-id="{{$d->id}}" href="#" class="btn btn-outline-primary btn-sm btn-edit">Edit</button>
+                                    <button type="button" data-id="{{$d->id}}" href="#" class="btn btn-outline-danger btn-sm btn-delete">Delete</button>
                                 </td>
                             </tr>
+                            @endforeach
                             <!-- Add more rows for other data -->
                         </tbody>
                     </table>
