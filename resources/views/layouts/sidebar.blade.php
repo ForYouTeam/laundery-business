@@ -22,8 +22,8 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item {{Route::is('user.view') ? 'menu-open' : ''}}">
-                <a href="/user" class="nav-link {{Route::is('user.view') ? 'active' : ''}}">
+            <li class="nav-item {{ Route::is('user.view') ? 'menu-open' : '' }}">
+                <a href="/user" class="nav-link {{ Route::is('user.view') ? 'active' : '' }}">
                     <i class="fas fa-user nav-icon"></i>
                     <p>
                         User
@@ -31,8 +31,8 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="/laundry" id="laudry" class="nav-link">
+            <li class="nav-item {{ Route::is('laundry.view') ? 'menu-open' : '' }}">
+                <a href="/laundry" class="nav-link {{ Route::is('laundry.view') ? 'active' : '' }}">
                     <i class="fas fa-tshirt nav-icon"></i>
                     <p>
                         Laundry
@@ -40,8 +40,8 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="pages/widgets.html" class="nav-link">
+            <li class="nav-item {{ Route::is('paket.view') ? 'menu-open' : '' }}">
+                <a href="/paket" class="nav-link {{ Route::is('paket.view') ? 'active' : '' }}">
                     <i class="fas fa-box nav-icon"></i>
                     <p>
                         Paket
@@ -49,8 +49,8 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="pages/widgets.html" class="nav-link">
+            <li class="nav-item {{ Route::is('order.view') ? 'menu-open' : '' }}">
+                <a href="/order" class="nav-link {{ Route::is('order.view') ? 'active' : '' }}">
                     <i class="fas fa-shopping-cart nav-icon"></i>
                     <p>
                         Order
@@ -58,8 +58,8 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="pages/widgets.html" class="nav-link">
+            <li class="nav-item {{ Route::is('member.view') ? 'menu-open' : '' }}">
+                <a href="/member" class="nav-link {{ Route::is('member.view') ? 'active' : '' }}">
                     <i class="fas fa-users nav-icon"></i>
                     <p>
                         Member
@@ -67,8 +67,8 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="pages/widgets.html" class="nav-link">
+            <li class="nav-item {{Route::is('report.view') ? 'menu-open' : ''}}">
+                <a href="/report" class="nav-link {{Route::is('report.view') ? 'active' : ''}}">
                     <i class="fas fa-chart-bar nav-icon"></i>
                     <p>
                         Report
