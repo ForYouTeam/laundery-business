@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li class="nav-item {{ Route::is('user.view') ? 'menu-open' : '' }}">
-                <a href="/user" class="nav-link {{ Route::is('user.view') ? 'active' : '' }}">
+                <a href="{{route('user.view')}}" class="nav-link {{ Route::is('user.view') ? 'active' : '' }}">
                     <i class="fas fa-user nav-icon"></i>
                     <p>
                         User
