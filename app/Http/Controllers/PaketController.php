@@ -17,7 +17,8 @@ class PaketController extends Controller
 
     public function index()
     {
-        return view('admin.paket.index');
+        $data = $this->paketRepo->getAllPayload([]);
+        return view('admin.paket.index')->with('data', $data['data']);
     }
 
     public function getAllData()

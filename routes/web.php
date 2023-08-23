@@ -29,6 +29,7 @@ Route::controller(UserController::class)->group(function () {
 
 Route::controller(LaundryController::class)->group(function () {
     Route::get('/laundrys', 'index')->name('laundry.view');
+    Route::post('/laundrys/upsert', 'upsertData')->name('laundry.upsert');
 });
 
 Route::controller(MemberController::class)->group(function () {

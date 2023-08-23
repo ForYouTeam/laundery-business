@@ -17,7 +17,8 @@ class MemberController extends Controller
 
     public function index()
     {
-        return view('admin.member.index');
+        $data = $this->memberRepo->getAllPayload([]);
+        return view('admin.member.index')->with('data', $data['data']);
     }
 
     public function getAllData()

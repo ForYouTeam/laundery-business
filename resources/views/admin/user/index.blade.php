@@ -20,27 +20,30 @@
                                 <th>id</th>
                                 <th>name</th>
                                 <th>username</th>
+                                <th>password</th>
                                 <th>scope</th>
                                 <th>aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $d)
-                            @php
-                                $no = 0
-                            @endphp
-                            <tr>
-                                <td>{{$no++}}</td>
-                                <td>{{$d->name}}</td>
-                                <td>{{$d->username}}</td>
-                                <td>{{$d->scope}}</td>
-                                <td>
-                                    <button type="button" data-id="{{$d->id}}" href="#" class="btn btn-outline-primary btn-sm btn-edit">Edit</button>
-                                    <button type="button" data-id="{{$d->id}}" href="#" class="btn btn-outline-danger btn-sm btn-delete">Delete</button>
-                                </td>
-                            </tr>
+                                @php
+                                    $no = 0;
+                                @endphp
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $d->name }}</td>
+                                    <td>{{ $d->username }}</td>
+                                    <td>{{ $d->password }}</td>
+                                    <td>{{ $d->scope }}</td>
+                                    <td>
+                                        <button type="button" data-id="{{ $d->id }}" href="#"
+                                            class="btn btn-outline-primary btn-sm btn-edit">Edit</button>
+                                        <button type="button" data-id="{{ $d->id }}" href="#"
+                                            class="btn btn-outline-danger btn-sm btn-delete">Delete</button>
+                                    </td>
+                                </tr>
                             @endforeach
-                            <!-- Add more rows for other data -->
                         </tbody>
                     </table>
                 </div>

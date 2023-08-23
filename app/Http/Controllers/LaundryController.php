@@ -17,7 +17,8 @@ class LaundryController extends Controller
 
     public function index()
     {
-        return view('admin.laundry.index');
+        $data = $this->laundryRepo->getAllPayload([]);
+        return view('admin.laundry.index')->with('data', $data['data']);
     }
 
     public function getAllData()

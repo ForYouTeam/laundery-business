@@ -6,6 +6,7 @@ use App\Contracts\UserContract;
 use App\Http\Requests\UserRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Psy\Readline\Hoa\Console;
 
 class UserController extends Controller
 {

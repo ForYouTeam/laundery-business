@@ -17,7 +17,8 @@ class ReportController extends Controller
 
     public function index()
     {
-        return view('admin.report.index');
+        $data = $this->reportRepo->getAllPayload([]);
+        return view('admin.report.index')->with('data', $data['data']);
     }
 
     public function getAllData()
