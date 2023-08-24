@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="{{ asset('AdminLTE-master') }}/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('AdminLTE-master') }}/plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="{{ asset('iziToast/css/iziToast.css') }}">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -84,59 +85,31 @@
             </div>
         </footer>
 
-        <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
         </aside>
-        <!-- /.control-sidebar -->
     </div>
-    <!-- ./wrapper -->
 
-    <!-- jQuery -->
-
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script> --}}
-
-    <!-- jQuery UI 1.11.4 -->
     <script src="{{ 'AdminLTE-master' }}/plugins/jquery/jquery.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script src="{{ 'AdminLTE-master' }}/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
-    <!-- Bootstrap 4 -->
-    <!-- ChartJS -->
     <script src="{{ 'AdminLTE-master' }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="{{ 'AdminLTE-master' }}/plugins/chart.js/Chart.min.js"></script>
-    <!-- Sparkline -->
     <script src="{{ 'AdminLTE-master' }}/plugins/sparklines/sparkline.js"></script>
-    <!-- JQVMap -->
     <script src="{{ 'AdminLTE-master' }}/plugins/jqvmap/jquery.vmap.min.js"></script>
     <script src="{{ 'AdminLTE-master' }}/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-    <!-- jQuery Knob Chart -->
     <script src="{{ 'AdminLTE-master' }}/plugins/jquery-knob/jquery.knob.min.js"></script>
-    <!-- daterangepicker -->
     <script src="{{ 'AdminLTE-master' }}/plugins/moment/moment.min.js"></script>
     <script src="{{ 'AdminLTE-master' }}/plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{ 'AdminLTE-master' }}/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-    <!-- Summernote -->
     <script src="{{ 'AdminLTE-master' }}/plugins/summernote/summernote-bs4.min.js"></script>
-    <!-- overlayScrollbars -->
     <script src="{{ 'AdminLTE-master' }}/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-    <!-- AdminLTE App -->
     <script src="{{ 'AdminLTE-master' }}/dist/js/adminlte.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    {{-- <script src="{{ 'AdminLTE-master' }}/dist/js/demo.js"></script> --}}
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ 'AdminLTE-master' }}/dist/js/pages/dashboard.js"></script>
-    {{-- <script>
-        $(document).ready(function() {
-            // Inisialisasi DataTables pada semua tabel yang memiliki class "dataTable"
-            $('.dataTable').DataTable();
-        });
-    </script> --}}
-
+    <script src="{{ asset('iziToast/js/iziToast.js') }}"></script>
+    <script src="{{ asset('js/PostAction.js') }}"></script>
+    @yield('script')
 </body>
 
 </html>

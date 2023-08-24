@@ -16,7 +16,7 @@
                 </div>
                 <!-- Tombol Tambah Data ditempatkan di bawah judul -->
                 <div class="card-header">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addUserModal">
+                    <button type="button" class="btn btn-outline-primary" id="btn-add">
                         Tambah Data
                     </button>
                 </div>
@@ -27,24 +27,19 @@
                     <table id="userTable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>id</th>
+                                <th style="width: 4%">no</th>
                                 <th>name</th>
                                 <th>username</th>
-                                <th>password</th>
                                 <th>scope</th>
-                                <th>aksi</th>
+                                <th style="width: 8%">aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                                $no = 0;
-                            @endphp
                             @foreach ($data as $d)
                                 <tr>
-                                    <td>{{ ++$no }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $d->name }}</td>
                                     <td>{{ $d->username }}</td>
-                                    <td>{{ $d->password }}</td>
                                     <td>{{ $d->scope }}</td>
                                     <td>
                                         <button type="button" data-id="{{ $d->id }}" href="#"
@@ -108,31 +103,115 @@
                 </div>
                 <div class="modal-body">
                     <!-- Add form fields here -->
-                    <form>
+                    <form id="form-user">
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text" class="form-control" id="name" name="name">
+                            <small class="text-danger" id="name-alert"></small>
                         </div>
                         <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="username">
+                            <label autocomplete="OFF" for="username">Username</label>
+                            <input placeholder="masukan nilai disini..." type="text" class="form-control" id="username" name="username">
+                            <small class="text-danger" id="username-alert"></small>
                         </div>
                         <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="text" class="form-control" id="password" name="password">
+                            <label autocomplete="OFF" for="password">Password</label>
+                            <input placeholder="masukan nilai disini..." type="password" class="form-control" id="password" name="password">
+                            <small class="text-danger" id="password-alert"></small>
                         </div>
                         <div class="form-group">
-                            <label for="scope">Scope</label>
-                            <input type="text" class="form-control" id="scope" name="scope">
+                            <label autocomplete="OFF" for="password">Konfirmasi Password</label>
+                            <input placeholder="masukan nilai disini..." type="password" class="form-control" id="password_confirmation" name="password">
                         </div>
-                        <!-- Add more form fields for other data -->
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Tambah</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearAlert()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="sendPayload()">Tambah</button>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        // GLOBAL variabel
+        let payload = {
+            name                  : '',
+            username              : '',
+            password              : '',
+            password_confirmation : '',
+            scope                 : 'admin',
+        }
+
+        let url = "{{config('app.url')}}"
+
+        // JQUERY code
+        $(document).on('click', '#btn-add', () => {
+            $('#addUserModal').modal('show')
+        })
+
+        // VANILA code
+        const setPayloadValue = async () => {
+            for (const key in payload) {
+                // Hilangkan untuk tabel lainnya
+                if (key === "scope") {
+                    continue
+                }
+                // Batas
+                payload[key] = $(`#${key}`).val()
+            }
+        }
+
+        const clearPayload = async () => {
+            for (const key in payload) {
+                // Hilangkan untuk tabel lainnya
+                if (key === "scope") {
+                    continue
+                }
+                // Batas
+                payload[key] = ""
+                $(`#${key}`).val('')
+            }
+        }
+
+        const clearAlert = async () => {
+            for (const key in payload) {
+                // Hilangkan untuk tabel lainnya
+                if (key === "scope" || key === "password_confirmation") {
+                    continue
+                }
+                // Batas
+                $(`#${key}-alert`).html('')
+            }
+        }
+
+        async function sendPayload() {
+            await setPayloadValue();
+            clearAlert()
+            $.ajax({
+                type: "POST",
+                url: `${url}/api/v1/users`,
+                data: payload,
+                success: (res) => {
+                    iziToast.success({
+                        title: 'Berhasil',
+                        message: 'data telah disimpan',
+                        position: 'topRight'
+                    });
+
+                    $('#addUserModal').modal('hide')
+                    clearPayload()
+                },
+                error: (err) => {
+                    if (err.responseJSON.errors) {
+                        let data = err.responseJSON.errors.data
+                        for (const key in data) {
+                            $(`#${key}-alert`).html(data[key])
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 @endsection
