@@ -1,19 +1,29 @@
 @extends('layouts.master')
+
 @section('page-head')
     Data User
 @endsection
+
+
+
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Daftar Data User</h3>
+                    <p></p>
+                </div>
+                <!-- Tombol Tambah Data ditempatkan di bawah judul -->
+                <div class="card-header">
                     <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addUserModal">
                         Tambah Data
                     </button>
                 </div>
+
                 <!-- /.card-header -->
                 <div class="card-body">
+
                     <table id="userTable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -26,12 +36,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $no = 0;
+                            @endphp
                             @foreach ($data as $d)
-                                @php
-                                    $no = 0;
-                                @endphp
                                 <tr>
-                                    <td>{{ $no++ }}</td>
+                                    <td>{{ ++$no }}</td>
                                     <td>{{ $d->name }}</td>
                                     <td>{{ $d->username }}</td>
                                     <td>{{ $d->password }}</td>
@@ -46,6 +56,36 @@
                             @endforeach
                         </tbody>
                     </table>
+
+                    <div class="d-flex justify-content-center mt-4">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                @if ($data->currentPage() > 1)
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $data->previousPageUrl() }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @for ($i = 1; $i <= $data->lastPage(); $i++)
+                                    <li class="page-item {{ $data->currentPage() == $i ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $data->url($i) }}">{{ $i }}</a>
+                                    </li>
+                                @endfor
+
+                                @if ($data->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $data->nextPageUrl() }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </nav>
+                    </div>
+
+
                 </div>
                 <!-- /.card-body -->
             </div>

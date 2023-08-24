@@ -15,11 +15,20 @@ class PaketController extends Controller
         $this->paketRepo = new PaketRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->paketRepo->getAllPayload([]);
-        return view('admin.paket.index')->with('data', $data['data']);
+        $perPage = $request->input('per_page', 5); // Menentukan jumlah item per halaman
+
+        $result = $this->paketRepo->getAllPayload([], $perPage);
+        $data = $result['data']; // Ambil data dari hasil payload
+        return view('admin.paket.index')->with('data', $data);
     }
+
+    // public function index()
+    // {
+    //     $data = $this->paketRepo->getAllPayload([]);
+    //     return view('admin.paket.index')->with('data', $data['data']);
+    // }
 
     public function getAllData()
     {

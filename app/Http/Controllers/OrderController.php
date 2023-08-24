@@ -15,11 +15,22 @@ class OrderController extends Controller
         $this->orderRepo = new OrderRepository;
     }
 
-    public function index()
+
+    public function index(Request $request)
     {
-        $data = $this->orderRepo->getAllPayload([]);
-        return view('admin.order.index')->with('data', $data['data']);
+        $perPage = $request->input('per_page', 5); // Menentukan jumlah item per halaman
+
+        $result = $this->orderRepo->getAllPayload([], $perPage);
+        $data = $result['data']; // Ambil data dari hasil payload
+        return view('admin.order.index')->with('data', $data);
     }
+
+
+    // public function index()
+    // {
+    //     $data = $this->orderRepo->getAllPayload([]);
+    //     return view('admin.order.index')->with('data', $data['data']);
+    // }
 
     public function getAllData()
     {

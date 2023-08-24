@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route::get('/users', 'UserController@index')->name('users.index');
+// Route::get('/user/search', 'UserController@search')->name('user.search');
+
+
 
 Route::get('/', function () {
     return view('layouts.master');

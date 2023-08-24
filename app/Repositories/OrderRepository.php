@@ -17,18 +17,31 @@ class OrderRepository implements OrderContract
     {
         $this->orderModel = new Order();
     }
-    public function getAllPayload(array $payload)
+
+
+    public function getAllPayload(array $payload, $perPage = 5)
     {
         try {
-
-            $data = $this->orderModel->all();
+            $data = $this->orderModel->paginate($perPage);
 
             return $this->success($data, "success getting data");
         } catch (\Throwable $th) {
-
             return $this->error($th->getMessage(), 500, $th, class_basename($this), __FUNCTION__);
         }
     }
+
+    // public function getAllPayload(array $payload)
+    // {
+    //     try {
+
+    //         $data = $this->orderModel->all();
+
+    //         return $this->success($data, "success getting data");
+    //     } catch (\Throwable $th) {
+
+    //         return $this->error($th->getMessage(), 500, $th, class_basename($this), __FUNCTION__);
+    //     }
+    // }
 
     public function getPayloadById(int $id)
     {

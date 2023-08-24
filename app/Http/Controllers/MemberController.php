@@ -15,11 +15,20 @@ class MemberController extends Controller
         $this->memberRepo = new MemberRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->memberRepo->getAllPayload([]);
-        return view('admin.member.index')->with('data', $data['data']);
+        $perPage = $request->input('per_page', 5); // Menentukan jumlah item per halaman
+
+        $result = $this->memberRepo->getAllPayload([], $perPage);
+        $data = $result['data']; // Ambil data dari hasil payload
+        return view('admin.member.index')->with('data', $data);
     }
+
+    // public function index()
+    // {
+    //     $data = $this->memberRepo->getAllPayload([]);
+    //     return view('admin.member.index')->with('data', $data['data']);
+    // }
 
     public function getAllData()
     {

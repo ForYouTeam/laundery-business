@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | Dashboard</title>
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -41,7 +43,7 @@
         </div>
         @include('layouts.navbar')
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            
+
             @include('layouts.sidebar')
             <!-- /.sidebar -->
         </aside>
@@ -91,6 +93,10 @@
     <!-- ./wrapper -->
 
     <!-- jQuery -->
+
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script> --}}
+
     <!-- jQuery UI 1.11.4 -->
     <script src="{{ 'AdminLTE-master' }}/plugins/jquery/jquery.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -121,9 +127,16 @@
     <!-- AdminLTE App -->
     <script src="{{ 'AdminLTE-master' }}/dist/js/adminlte.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="{{ 'AdminLTE-master' }}/dist/js/demo.js"></script>
+    {{-- <script src="{{ 'AdminLTE-master' }}/dist/js/demo.js"></script> --}}
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ 'AdminLTE-master' }}/dist/js/pages/dashboard.js"></script>
+    {{-- <script>
+        $(document).ready(function() {
+            // Inisialisasi DataTables pada semua tabel yang memiliki class "dataTable"
+            $('.dataTable').DataTable();
+        });
+    </script> --}}
+
 </body>
 
 </html>
