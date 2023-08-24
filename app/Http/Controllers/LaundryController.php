@@ -15,8 +15,16 @@ class LaundryController extends Controller
         $this->laundryRepo = new LaundryRepository;
     }
 
+    public function index()
+    {
+        $result = $this->laundryRepo->getAllPayload([]); // Mengambil data dari payload
+        $data = $result['data']; // Ambil data dari hasil payload
+        return view('admin.laundry.index', compact('data'));
+    }
+
     public function getAllData()
     {
+
         $result = $this->laundryRepo->getAllPayload([]);
 
         return response()->json($result, $result['code']);

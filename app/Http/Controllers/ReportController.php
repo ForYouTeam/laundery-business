@@ -15,6 +15,23 @@ class ReportController extends Controller
         $this->reportRepo = new ReportRepository;
     }
 
+
+    public function index(Request $request)
+    {
+        $perPage = $request->input('per_page', 5); // Menentukan jumlah item per halaman
+
+        $result = $this->reportRepo->getAllPayload([], $perPage);
+        $data = $result['data']; // Ambil data dari hasil payload
+        return view('admin.report.index')->with('data', $data);
+    }
+
+
+    // public function index()
+    // {
+    //     $data = $this->reportRepo->getAllPayload([]);
+    //     return view('admin.report.index')->with('data', $data['data']);
+    // }
+
     public function getAllData()
     {
         $result = $this->reportRepo->getAllPayload([]);

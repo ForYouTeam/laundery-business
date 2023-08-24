@@ -17,18 +17,17 @@ class LaundryRepository implements LaundryContract
     {
         $this->laundryModel = new Laundry();
     }
-    public function getAllPayload(array $payload)
+    public function getAllPayload(array $payload, $perPage = 5)
     {
         try {
-
-            $data = $this->laundryModel->all();
+            $data = $this->laundryModel->paginate($perPage);
 
             return $this->success($data, "success getting data");
         } catch (\Throwable $th) {
-
             return $this->error($th->getMessage(), 500, $th, class_basename($this), __FUNCTION__);
         }
     }
+
 
     public function getPayloadById(int $id)
     {

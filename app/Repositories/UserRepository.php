@@ -17,18 +17,17 @@ class UserRepository implements UserContract
     {
         $this->userModel = new User();
     }
-    public function getAllPayload(array $payload)
+    public function getAllPayload(array $payload, int $perPage = 5)
     {
         try {
-
-            $data = $this->userModel->where('scope', 'admin')->get();
+            $data = $this->userModel->where('scope', 'admin')->paginate($perPage);
 
             return $this->success($data, "success getting data");
         } catch (\Throwable $th) {
-
             return $this->error($th->getMessage(), 500, $th, class_basename($this), __FUNCTION__);
         }
     }
+
 
     public function getPayloadById(int $id)
     {
@@ -100,4 +99,5 @@ class UserRepository implements UserContract
             return $this->error($th->getMessage(), 500, $th, class_basename($this), __FUNCTION__);
         }
     }
+
 }
