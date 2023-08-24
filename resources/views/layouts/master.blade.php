@@ -32,6 +32,7 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('AdminLTE-master') }}/plugins/summernote/summernote-bs4.min.css">
     <link rel="stylesheet" href="{{ asset('iziToast/css/iziToast.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css" integrity="sha256-VJuwjrIWHWsPSEvQV4DiPfnZi7axOaiWwKfXaJnR5tA=" crossorigin="anonymous">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -109,6 +110,7 @@
     <script src="{{ 'AdminLTE-master' }}/dist/js/pages/dashboard.js"></script>
     <script src="{{ asset('iziToast/js/iziToast.js') }}"></script>
     <script src="{{ asset('js/PostAction.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js" integrity="sha256-S/HO+Ru8zrLDmcjzwxjl18BQYDCvFDD7mPrwJclX6U8=" crossorigin="anonymous"></script>
     @yield('script')
 </body>
 
