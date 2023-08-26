@@ -1,4 +1,5 @@
 @extends('layouts.master')
+
 @section('page-head')
     Data Paket
 @endsection
@@ -25,7 +26,7 @@
                 </div>
                 <!-- Tombol Tambah Data ditempatkan di bawah judul -->
                 <div class="card-header">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addUserModal">
+                    <button type="button" class="btn btn-outline-primary" id="btn-add">
                         Tambah Data
                     </button>
                 </div>
@@ -45,11 +46,11 @@
                         </thead>
                         <tbody>
                             @foreach ($data as $d)
-                                @php
+                                {{-- @php
                                     $no = 1;
-                                @endphp
+                                @endphp --}}
                                 <tr>
-                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $d->laundry }}</td>
                                     <td>{{ $d->name }}</td>
                                     <td>{{ $d->description }}</td>
@@ -101,7 +102,7 @@
     <!-- /.row -->
 
     <!-- Add User Modal -->
-    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
+    <div class="modal fade" id="addPaketModal" tabindex="-1" role="dialog" aria-labelledby="addPaketModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -113,31 +114,121 @@
                 </div>
                 <div class="modal-body">
                     <!-- Add form fields here -->
-                    <form>
+                    <form id="form-paket">
                         <div class="form-group">
                             <label for="laundry">Laundry</label>
-                            <input type="text" class="form-control" id="laundry" name="laundry">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="laundry" name="laundry">
+                            <small class="text-danger" id="laundry-alert"></small>
                         </div>
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="name" name="name">
+                            <small class="text-danger" id="name-alert"></small>
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <input type="text" class="form-control" id="description" name="description">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="description" name="description">
+                            <small class="text-danger" id="description-alert"></small>
                         </div>
                         <div class="form-group">
                             <label for="price">Price</label>
-                            <input type="text" class="form-control" id="price" name="price">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="price" name="price">
+                            <small class="text-danger" id="price-alert"></small>
                         </div>
                         <!-- Add more form fields for other data -->
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Tambah</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="clearAlert()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="sendPayload()">Tambah</button>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        // Global variabel
+        let payload = {
+            laundry: '',
+            name: '',
+            description: '',
+            price: '',
+        }
+
+        let url = "{{ config('app.url') }}"
+
+        // JQURY CODE
+        $(document).on('click', '#btn-add', () => {
+            $('#addPaketModal').modal('show')
+        })
+
+        // VANILA CODE
+        const setPayloadValue = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope") {
+                //     continue
+                // }
+                // // Batas
+                payload[key] = $(`#${key}`).val()
+            }
+        }
+
+        const clearPayload = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope") {
+                //     continue
+                // }
+                // // Batas
+                payload[key] = ""
+                $(`#${key}`).val('')
+            }
+        }
+
+        const clearAlert = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope" || key === "password_confirmation") {
+                //     continue
+                // }
+                // // Batas
+                $(`#${key}-alert`).html('')
+            }
+        }
+
+        async function sendPayload() {
+            await setPayloadValue();
+            clearAlert()
+            $.ajax({
+                type: "POST",
+                url: `${url}/api/v1/pakets`,
+                data: payload,
+                success: (res) => {
+                    iziToast.success({
+                        title: 'Berhasil',
+                        message: 'data telah disimpan',
+                        position: 'topRight'
+                    });
+
+                    $('#addPaketModal').modal('hide')
+                    clearPayload()
+                },
+                error: (err) => {
+                    if (err.responseJSON.errors) {
+                        let data = err.responseJSON.errors.data
+                        for (const key in data) {
+                            $(`#${key}-alert`).html(data[key])
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 @endsection

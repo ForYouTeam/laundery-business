@@ -4,16 +4,16 @@
 @endsection
 
 <style>
-
     .pagination-center {
         display: flex;
         justify-content: center;
     }
-    .pagination-container {
-        margin-top: 20px; /* Atur jarak yang diinginkan di sini */
-    }
 
-    </style>
+    .pagination-container {
+        margin-top: 20px;
+        /* Atur jarak yang diinginkan di sini */
+    }
+</style>
 
 @section('content')
     <div class="row">
@@ -35,7 +35,7 @@
                     <table id="userTable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>id</th>
+                                <th>no</th>
                                 <th>costumer</th>
                                 <th>phone</th>
                                 <th>email</th>
@@ -47,11 +47,8 @@
                         </thead>
                         <tbody>
                             @foreach ($data as $d)
-                                @php
-                                    $no = 1;
-                                @endphp
                                 <tr>
-                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $d->costumer }}</td>
                                     <td>{{ $d->phone }}</td>
                                     <td>{{ $d->email }}</td>
@@ -123,7 +120,7 @@
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input type="number" class="form-control" id="phone" name="phone">
+                            <input type="text" class="form-control" id="phone" name="phone">
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -141,10 +138,93 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Tambah</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="clearAlert()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="sendPayload()">Tambah</button>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        // GLOBAL variabel
+        let payload = {
+            costumer: '',
+            phone: '',
+            email: '',
+            status: '',
+            paket_id: '',
+        }
+
+        let url = "{{ config('app.url') }}"
+
+        // JQUERY code
+        $(document).on('click', '#btn-add', () => {
+            $('#addOrderModal').modal('show')
+        })
+
+        // VANILA code
+        const setPayloadValue = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope") {
+                //     continue
+                // }
+                // // Batas
+                payload[key] = $(`#${key}`).val()
+            }
+        }
+
+        const clearPayload = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope") {
+                //     continue
+                // }
+                // // Batas
+                payload[key] = ""
+                $(`#${key}`).val('')
+            }
+        }
+
+        const clearAlert = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope" || key === "password_confirmation") {
+                //     continue
+                // }
+                // // Batas
+                $(`#${key}-alert`).html('')
+            }
+        }
+
+        async function sendPayload() {
+            await setPayloadValue();
+            clearAlert()
+            $.ajax({
+                type: "POST",
+                url: `${url}/api/v1/orders`,
+                data: payload,
+                success: (res) => {
+                    iziToast.success({
+                        title: 'Berhasil',
+                        message: 'data telah disimpan',
+                        position: 'topRight'
+                    });
+
+                    $('#addOrderModal').modal('hide')
+                    clearPayload()
+                },
+                error: (err) => {
+                    if (err.responseJSON.errors) {
+                        let data = err.responseJSON.errors.data
+                        for (const key in data) {
+                            $(`#${key}-alert`).html(data[key])
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 @endsection

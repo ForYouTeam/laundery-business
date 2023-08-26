@@ -1,4 +1,5 @@
 @extends('layouts.master')
+
 @section('page-head')
     Data laundry
 @endsection
@@ -25,7 +26,7 @@
                 </div>
                 <!-- Tombol Tambah Data ditempatkan di bawah judul -->
                 <div class="card-header">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addUserModal">
+                    <button type="button" class="btn btn-outline-primary" id="btn-add">
                         Tambah Data
                     </button>
                 </div>
@@ -41,15 +42,16 @@
                                 <th>phone</th>
                                 <th>email</th>
                                 <th>location</th>
+                                <th>aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $d)
-                                @php
+                                {{-- @php
                                     $no = 0;
-                                @endphp
+                                @endphp --}}
                                 <tr>
-                                    <td>{{ ++$no }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $d->name }}</td>
                                     <td>{{ $d->address }}</td>
                                     <td>{{ $d->phone }}</td>
@@ -65,6 +67,7 @@
                             @endforeach
                         </tbody>
                     </table>
+
                     <div class="d-flex justify-content-center mt-4">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
@@ -102,7 +105,7 @@
     <!-- /.row -->
 
     <!-- Add User Modal -->
-    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
+    <div class="modal fade" id="addLaundryModal" tabindex="-1" role="dialog" aria-labelledby="addLaundryModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -114,35 +117,128 @@
                 </div>
                 <div class="modal-body">
                     <!-- Add form fields here -->
-                    <form>
+                    <form id="form-laundry">
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="name" name="name">
+                            <small class="text-danger" id="name-alert"></small>
                         </div>
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <input type="text" class="form-control" id="address" name="address">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="address" name="address">
+                            <small class="text-danger" id="laundry-alert"></small>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input type="number" class="form-control" id="phone" name="phone">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="number"
+                                class="form-control" id="phone" name="phone">
+                            <small class="text-danger" id="phone-alert"></small>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="email" name="email">
+                            <small class="text-danger" id="email-alert"></small>
                         </div>
                         <div class="form-group">
                             <label for="location">Location</label>
-                            <input type="text" class="form-control" id="location" name="location">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="location" name="location">
+                            <small class="text-danger" id="location-alert"></small>
                         </div>
                         <!-- Add more form fields for other data -->
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Tambah</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="clearAlert()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="sendPayload()">Tambah</button>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        // Global variabel
+        let payload = {
+            name: '',
+            address: '',
+            phone: '',
+            email: '',
+            location: '',
+        }
+
+        let url = "{{ config('app.url') }}"
+
+        // JQURY CODE
+        $(document).on('click', '#btn-add', () => {
+            $('#addLaundryModal').modal('show')
+        })
+
+        // VANILA CODE
+        const setPayloadValue = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope") {
+                //     continue
+                // }
+                // // Batas
+                payload[key] = $(`#${key}`).val()
+            }
+        }
+
+        const clearPayload = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope") {
+                //     continue
+                // }
+                // // Batas
+                payload[key] = ""
+                $(`#${key}`).val('')
+            }
+        }
+
+        const clearAlert = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope" || key === "password_confirmation") {
+                //     continue
+                // }
+                // // Batas
+                $(`#${key}-alert`).html('')
+            }
+        }
+
+        async function sendPayload() {
+            await setPayloadValue();
+            clearAlert()
+            $.ajax({
+                type: "POST",
+                url: `${url}/api/v1/laundrys`,
+                data: payload,
+                success: (res) => {
+                    iziToast.success({
+                        title: 'Berhasil',
+                        message: 'data telah disimpan',
+                        position: 'topRight'
+                    });
+
+                    $('#addLaundryModal').modal('hide')
+                    clearPayload()
+                },
+                error: (err) => {
+                    if (err.responseJSON.errors) {
+                        let data = err.responseJSON.errors.data
+                        for (const key in data) {
+                            $(`#${key}-alert`).html(data[key])
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 @endsection

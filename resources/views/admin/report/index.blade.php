@@ -1,19 +1,20 @@
 @extends('layouts.master')
+
 @section('page-head')
     Data Report
 @endsection
 
 <style>
-
     .pagination-center {
         display: flex;
         justify-content: center;
     }
-    .pagination-container {
-        margin-top: 20px; /* Atur jarak yang diinginkan di sini */
-    }
 
-    </style>
+    .pagination-container {
+        margin-top: 20px;
+        /* Atur jarak yang diinginkan di sini */
+    }
+</style>
 
 @section('content')
     <div class="row">
@@ -25,14 +26,15 @@
                 </div>
                 <!-- Tombol Tambah Data ditempatkan di bawah judul -->
                 <div class="card-header">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addUserModal">
+                    <button type="button" class="btn btn-outline-primary" id="btn-add">
                         Tambah Data
                     </button>
                 </div>
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="userTable" class="table table-bordered table-hover">
+
+                    <table id="reportTable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>id</th>
@@ -49,11 +51,8 @@
                         </thead>
                         <tbody>
                             @foreach ($data as $d)
-                                @php
-                                    $no = 1;
-                                @endphp
                                 <tr>
-                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $d->member_id }}</td>
                                     <td>{{ $d->total_order }}</td>
                                     <td>{{ $d->progress }}</td>
@@ -109,66 +108,167 @@
     <!-- /.row -->
 
     <!-- Add User Modal -->
-    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
+    <div class="modal fade" id="addReportModal" tabindex="-1" role="dialog" aria-labelledby="addReportModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addUserModalLabel">Tambah Data Report</h5>
+                    <h5 class="modal-title" id="addReportModalLabel">Tambah Data User</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" style="max-height: 70vh; overflow-y: auto; display: flex;">
-                    <!-- Bagian kiri dengan margin kanan -->
-                    <div style="flex: 1; margin-right: 20px;">
-                        <form>
-                            <div class="form-group">
-                                <label for="member_id">Member Id</label>
-                                <input type="text" class="form-control" id="member_id" name="member_id">
-                            </div>
-                            <div class="form-group">
-                                <label for="total_order">Total Order</label>
-                                <input type="text" class="form-control" id="total_order" name="total_order">
-                            </div>
-                            <div class="form-group">
-                                <label for="progress">Progress</label>
-                                <input type="text" class="form-control" id="progress" name="progress">
-                            </div>
-                            <div class="form-group">
-                                <label for="canceled">Canceled</label>
-                                <input type="text" class="form-control" id="canceled" name="canceled">
-                            </div>
-
-                        </form>
-                    </div>
-                    <!-- Bagian kanan -->
-                    <div style="flex: 1;">
-                        <form>
-                            <div class="form-group">
-                                <label for="done">Done</label>
-                                <input type="text" class="form-control" id="done" name="done">
-                            </div>
-                            <div class="form-group">
-                                <label for="income">Income</label>
-                                <input type="text" class="form-control" id="income" name="income">
-                            </div>
-                            <div class="form-group">
-                                <label for="start">Start</label>
-                                <input type="text" class="form-control" id="start" name="start">
-                            </div>
-                            <div class="form-group">
-                                <label for="end">End</label>
-                                <input type="text" class="form-control" id="end" name="end">
-                            </div>
-                        </form>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form id="form-report">
+                                <div class="form-group">
+                                    <label for="member_id">Member Id</label>
+                                    <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                        class="form-control" id="member_id" name="member_id">
+                                    <small class="text-danger" id="member_id-alert"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label autocomplete="OFF" for="total_order">Total Order</label>
+                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
+                                        id="total_order" name="total_order">
+                                    <small class="text-danger" id="total_order-alert"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label autocomplete="OFF" for="progress">Progress</label>
+                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
+                                        id="progress" name="progress">
+                                    <small class="text-danger" id="progress-alert"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label autocomplete="OFF" for="canceled">Canceled</label>
+                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
+                                        id="canceled" name="canceled">
+                                    <small class="text-danger" id="canceled-alert"></small>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <form id="form-report">
+                                <div class="form-group">
+                                    <label autocomplete="OFF" for="done">Done</label>
+                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
+                                        id="done" name="done">
+                                    <small class="text-danger" id="done-alert"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label autocomplete="OFF" for="income">Income</label>
+                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
+                                        id="income" name="income">
+                                    <small class="text-danger" id="income-alert"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label autocomplete="OFF" for="start">Start</label>
+                                    <input placeholder="masukan nilai disini..." type="date" class="form-control"
+                                        id="start" name="start">
+                                    <small class="text-danger" id="start-alert"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label autocomplete="OFF" for="end">End</label>
+                                    <input placeholder="masukan nilai disini..." type="date" class="form-control"
+                                        id="end" name="end">
+                                    <small class="text-danger" id="end-alert"></small>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Tambah</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="clearAlert()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="sendPayload()">Tambah</button>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        // Global variabel
+        let payload = {
+            member_id: '',
+            total_order: '',
+            progress: '',
+            canceled: '',
+            done: '',
+            income: '',
+            start: '',
+            end: '',
+        }
+
+        let url = "{{ config('app.url') }}"
+
+        // JQURY CODE
+        $(document).on('click', '#btn-add', () => {
+            $('#addReportModal').modal('show')
+        })
+
+        // VANILA CODE
+        const setPayloadValue = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope") {
+                //     continue
+                // }
+                // // Batas
+                payload[key] = $(`#${key}`).val()
+            }
+        }
+
+        const clearPayload = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope") {
+                //     continue
+                // }
+                // // Batas
+                payload[key] = ""
+                $(`#${key}`).val('')
+            }
+        }
+
+        const clearAlert = async () => {
+            for (const key in payload) {
+                // // Hilangkan untuk tabel lainnya
+                // if (key === "scope" || key === "password_confirmation") {
+                //     continue
+                // }
+                // // Batas
+                $(`#${key}-alert`).html('')
+            }
+        }
+
+        async function sendPayload() {
+            await setPayloadValue();
+            clearAlert()
+            $.ajax({
+                type: "POST",
+                url: `${url}/api/v1/reports`,
+                data: payload,
+                success: (res) => {
+                    iziToast.success({
+                        title: 'Berhasil',
+                        message: 'data telah disimpan',
+                        position: 'topRight'
+                    });
+
+                    $('#addReportModal').modal('hide')
+                    clearPayload()
+                },
+                error: (err) => {
+                    if (err.responseJSON.errors) {
+                        let data = err.responseJSON.errors.data
+                        for (const key in data) {
+                            $(`#${key}-alert`).html(data[key])
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 @endsection

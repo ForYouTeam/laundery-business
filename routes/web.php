@@ -33,11 +33,12 @@ Route::controller(UserController::class)->group(function () {
 
 Route::controller(LaundryController::class)->group(function () {
     Route::get('/laundrys', 'index')->name('laundry.view');
-    Route::post('/laundrys/upsert', 'upsertData')->name('laundry.upsert');
+    // Route::post('/laundrys/upsert', 'upsertData')->name('laundry.upsert');
 });
 
 Route::controller(MemberController::class)->group(function () {
     Route::get('/members', 'index')->name('member.view');
+    // Route::post('/members/upsert', 'upsertData')->name('member.upsert');
 });
 
 Route::controller(OrderController::class)->group(function () {
