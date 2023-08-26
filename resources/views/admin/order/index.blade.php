@@ -1,19 +1,10 @@
 @extends('layouts.master')
+
 @section('page-head')
     Data Order
 @endsection
 
-<style>
-    .pagination-center {
-        display: flex;
-        justify-content: center;
-    }
 
-    .pagination-container {
-        margin-top: 20px;
-        /* Atur jarak yang diinginkan di sini */
-    }
-</style>
 
 @section('content')
     <div class="row">
@@ -54,44 +45,48 @@
                                     <td>{{ $d->email }}</td>
                                     <td>{{ $d->status }}</td>
                                     <td>{{ $d->paket_id }}</td>
-
                                     <td>
-                                        <button type="button" data-id="{{ $d->id }}" href="#"
+                                        <button type="button" data-id="{{ $d->id }}" data-row="{{ $d }}"
                                             class="btn btn-outline-primary btn-sm btn-edit">Edit</button>
-                                        <button type="button" data-id="{{ $d->id }}" href="#"
-                                            class="btn btn-outline-danger btn-sm btn-delete">Delete</button>
+                                        <button type="button" data-id="{{ $d->id }}"
+                                            class="btn btn-outline-danger btn-sm btn-delete-data">Delete</button>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-center mt-4">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                @if ($data->currentPage() > 1)
-                                    <li class="page-item">
-                                        <a class="page-link" href="{{ $data->previousPageUrl() }}" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                @endif
 
-                                @for ($i = 1; $i <= $data->lastPage(); $i++)
-                                    <li class="page-item {{ $data->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="page-link" href="{{ $data->url($i) }}">{{ $i }}</a>
-                                    </li>
-                                @endfor
+                    @if (count($data) >= 1)
+                        <div class="d-flex justify-content-end mt-4">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    @if ($data->currentPage() > 1)
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $data->previousPageUrl() }}"
+                                                aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    @endif
 
-                                @if ($data->hasMorePages())
-                                    <li class="page-item">
-                                        <a class="page-link" href="{{ $data->nextPageUrl() }}" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                @endif
-                            </ul>
-                        </nav>
-                    </div>
+                                    @for ($i = 1; $i <= $data->lastPage(); $i++)
+                                        <li class="page-item {{ $data->currentPage() == $i ? 'active' : '' }}">
+                                            <a class="page-link" href="{{ $data->url($i) }}">{{ $i }}</a>
+                                        </li>
+                                    @endfor
+
+                                    @if ($data->hasMorePages())
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $data->nextPageUrl() }}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                        </div>
+                    @endif
+
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -138,8 +133,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        onclick="clearAlert()">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearPayload()">Close</button>
                     <button type="button" class="btn btn-primary" onclick="sendPayload()">Tambah</button>
                 </div>
             </div>
@@ -150,18 +144,50 @@
     <script>
         // GLOBAL variabel
         let payload = {
-            costumer: '',
-            phone: '',
-            email: '',
-            status: '',
-            paket_id: '',
+            id         : null ,
+            costumer   : '',
+            phone      : '',
+            email      : '',
+            status     : '',
+            paket_id   : '',
         }
 
         let url = "{{ config('app.url') }}"
 
-        // JQUERY code
+        // JQUERY code tambah,edit hapus
         $(document).on('click', '#btn-add', () => {
             $('#addOrderModal').modal('show')
+        })
+
+        $(document).on('click', '.btn-edit', function() {
+            let dataId  = $(this).data('id' )
+            let dataRow = $(this).data('row')
+
+            payload.id = dataId
+            for (const key in dataRow) {
+                if (key === "created_at" || key === "updated_at" || key === "id") {
+                    continue
+                }
+                $(`#${key}`).val(dataRow[key])
+            }
+            $('#addOrderModal').modal('show')
+        })
+
+        $(document).on('click', '.btn-delete-data', function() {
+            let dataId = $(this).data('id')
+            Swal.fire({
+                title: 'Apa kamu yakin?',
+                text: "Proses ini tidak dapat dibatalkan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteByPayload(dataId)
+                }
+            })
         })
 
         // VANILA code
@@ -215,6 +241,9 @@
 
                     $('#addOrderModal').modal('hide')
                     clearPayload()
+                    setTimeout(() => {
+                        location.reload()
+                    }, 1000);
                 },
                 error: (err) => {
                     if (err.responseJSON.errors) {
@@ -223,8 +252,35 @@
                             $(`#${key}-alert`).html(data[key])
                         }
                     }
+                    if (err.status === 500) {
+                        iziToast.error({
+                            title    : 'Maaf Ada Perbaikan' ,
+                            message  : 'Sedang terjadi maintenance pada server',
+                            position: 'topRight'
+                        })
+                    }
                 }
             });
         }
+        const deleteByPayload = async (id) => {
+            $.ajax({
+                type: "DELETE",
+                url: `${url}/api/v1/orders/${id}`,
+                success: async (res) => {
+                    iziToast.success({
+                        title   : 'Berhasil',
+                        message : 'data telah dihapus',
+                        position: 'topRight'
+                    });
+                    setTimeout(() => {
+                        location.reload()
+                    }, 1000);
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            });
+        }
+
     </script>
 @endsection
