@@ -243,40 +243,40 @@
             await setPayloadValue();
             clearAlert()
             console.log(payload);
-            // $.ajax({
-            //     type: "POST",
-            //     url: `${url}/api/v1/laundrys`,
-            //     data: payload,
-            //     success: (res) => {
-            //         iziToast.success({
-            //             title: 'Berhasil',
-            //             message: 'data telah disimpan',
-            //             position: 'topRight'
-            //         });
+            $.ajax({
+                type: "POST",
+                url: `${url}/api/v1/laundrys`,
+                data: payload,
+                success: (res) => {
+                    iziToast.success({
+                        title: 'Berhasil',
+                        message: 'data telah disimpan',
+                        position: 'topRight'
+                    });
 
-            //         $('#addLaundryModal').modal('hide')
-            //         clearPayload()
-            //         setTimeout(() => {
-            //             location.reload()
-            //         }, 1000);
-            //     },
-            //     error: (err) => {
-            //         if (err.responseJSON.errors) {
-            //             let data = err.responseJSON.errors.data
-            //             for (const key in data) {
-            //                 $(`#${key}-alert`).html(data[key])
-            //             }
-            //         }
+                    $('#addLaundryModal').modal('hide')
+                    clearPayload()
+                    setTimeout(() => {
+                        location.reload()
+                    }, 1000);
+                },
+                error: (err) => {
+                    if (err.responseJSON.errors) {
+                        let data = err.responseJSON.errors.data
+                        for (const key in data) {
+                            $(`#${key}-alert`).html(data[key])
+                        }
+                    }
 
-            //         if (err.status === 500) {
-            //             iziToast.error({
-            //                 title    : 'Maaf Ada Perbaikan' ,
-            //                 message  : 'Sedang terjadi maintenance pada server',
-            //                 position: 'topRight'
-            //             })
-            //         }
-            //     }
-            // });
+                    if (err.status === 500) {
+                        iziToast.error({
+                            title    : 'Maaf Ada Perbaikan' ,
+                            message  : 'Sedang terjadi maintenance pada server',
+                            position: 'topRight'
+                        })
+                    }
+                }
+            });
         }
 
         const deleteByPayload = async (id) => {

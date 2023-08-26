@@ -16,13 +16,14 @@
                 </div>
                 <!-- Tombol Tambah Data ditempatkan di bawah judul -->
                 <div class="card-header">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addUserModal">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addOrderModal">
                         Tambah Data
                     </button>
                 </div>
 
                 <!-- /.card-header -->
                 <div class="card-body">
+
                     <table id="userTable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -97,7 +98,7 @@
     <!-- /.row -->
 
     <!-- Add User Modal -->
-    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
+    <div class="modal fade" id="addOrderModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -133,7 +134,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearPayload()">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="clearPayload()">Close</button>
                     <button type="button" class="btn btn-primary" onclick="sendPayload()">Tambah</button>
                 </div>
             </div>
@@ -144,12 +146,12 @@
     <script>
         // GLOBAL variabel
         let payload = {
-            id         : null ,
-            costumer   : '',
-            phone      : '',
-            email      : '',
-            status     : '',
-            paket_id   : '',
+            id: null,
+            costumer: '',
+            phone: '',
+            email: '',
+            status: '',
+            paket_id: '',
         }
 
         let url = "{{ config('app.url') }}"
@@ -160,7 +162,7 @@
         })
 
         $(document).on('click', '.btn-edit', function() {
-            let dataId  = $(this).data('id' )
+            let dataId = $(this).data('id')
             let dataRow = $(this).data('row')
 
             payload.id = dataId
@@ -194,24 +196,26 @@
         const setPayloadValue = async () => {
             for (const key in payload) {
                 // // Hilangkan untuk tabel lainnya
-                // if (key === "scope") {
-                //     continue
-                // }
+                if (key === "id") {
+                    continue
+                }
                 // // Batas
                 payload[key] = $(`#${key}`).val()
             }
         }
 
         const clearPayload = async () => {
+            payload.id = null
             for (const key in payload) {
                 // // Hilangkan untuk tabel lainnya
-                // if (key === "scope") {
-                //     continue
-                // }
+                if (key === "id") {
+                    continue
+                }
                 // // Batas
                 payload[key] = ""
                 $(`#${key}`).val('')
             }
+            clearAlert()
         }
 
         const clearAlert = async () => {
@@ -254,8 +258,8 @@
                     }
                     if (err.status === 500) {
                         iziToast.error({
-                            title    : 'Maaf Ada Perbaikan' ,
-                            message  : 'Sedang terjadi maintenance pada server',
+                            title: 'Maaf Ada Perbaikan',
+                            message: 'Sedang terjadi maintenance pada server',
                             position: 'topRight'
                         })
                     }
@@ -268,8 +272,8 @@
                 url: `${url}/api/v1/orders/${id}`,
                 success: async (res) => {
                     iziToast.success({
-                        title   : 'Berhasil',
-                        message : 'data telah dihapus',
+                        title: 'Berhasil',
+                        message: 'data telah dihapus',
                         position: 'topRight'
                     });
                     setTimeout(() => {
@@ -281,6 +285,5 @@
                 }
             });
         }
-
     </script>
 @endsection

@@ -235,9 +235,9 @@
         const setPayloadValue = async () => {
             for (const key in payload) {
                 // // Hilangkan untuk tabel lainnya
-                // if (key === "scope") {
-                //     continue
-                // }
+                if (key === "id") {
+                    continue
+                }
                 // // Batas
                 payload[key] = $(`#${key}`).val()
             }
@@ -246,9 +246,9 @@
         const clearPayload = async () => {
             for (const key in payload) {
                 // // Hilangkan untuk tabel lainnya
-                // if (key === "scope") {
-                //     continue
-                // }
+                if (key === "id") {
+                    continue
+                }
                 // // Batas
                 payload[key] = ""
                 $(`#${key}`).val('')
