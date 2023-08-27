@@ -2,11 +2,11 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <img src="{{ asset('AdminLTE-master') }}/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
+            <img src="{{ asset('AdminLTE-master') }}/dist/img/logoadmin.png" class="img-circle elevation-2"
                 alt="User Image">
         </div>
         <div class="info">
-            <a href="#" class="d-block">LAUNDRY-BUSINESS</a>
+            <a href="/" class="d-block">LAUNDRY-BUSINESS</a>
         </div>
     </div>
     <!-- Sidebar Menu -->
@@ -15,7 +15,7 @@
             <!-- Add icons to the links using the .nav-icon class
    with font-awesome or any other icon font library -->
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="/" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard

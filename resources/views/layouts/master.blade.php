@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <link rel="icon" href="{{ asset('AdminLTE-master') }}/dist/img/logoadmin.png" type="image/png">
+    <title>LOUNDRY BUSINESS</title>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 
@@ -146,6 +147,7 @@
             });
         });
     </script>
+
     @yield('script')
 </body>
 
