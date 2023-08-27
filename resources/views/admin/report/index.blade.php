@@ -36,7 +36,7 @@
                                 <th>income</th>
                                 <th>start</th>
                                 <th>end</th>
-                                <th>aksi</th>
+                                <th style="width: 11%">aksi</th>
                             </tr>
                         </thead>
                         <tbody>

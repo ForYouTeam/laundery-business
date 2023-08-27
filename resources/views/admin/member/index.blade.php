@@ -35,7 +35,7 @@
                                 <th>laundry Id</th>
                                 <th>verify</th>
                                 <th>user Id</th>
-                                <th>aksi</th>
+                                <th style="width: 11%">aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -155,6 +155,13 @@
                                         id="laundry_id" name="laundry_id">
                                     <small class="text-danger" id="laundry_id-alert"></small>
                                 </div>
+                                {{-- <div class="form-group">
+                                    <label for="laundry_id">ID Laundry</label>
+                                    <select class="form-control" id="laundry_id" name="laundry_id">
+                                        <option value="">Pilih Laundry</option>
+                                    </select>
+                                    <small class="text-danger" id="laundry_id-alert"></small>
+                                </div> --}}
                                 <div class="form-group">
                                     <label autocomplete="OFF" for="verify">Verify</label>
                                     <input placeholder="masukan nilai disini..." type="text" class="form-control"
@@ -167,6 +174,13 @@
                                         id="user_id" name="user_id">
                                     <small class="text-danger" id="user_id-alert"></small>
                                 </div>
+                                {{-- <div class="form-group">
+                                    <label for="user_id">ID Pengguna</label>
+                                    <select class="form-control" id="user_id" name="user_id">
+                                        <option value="">Pilih Pengguna</option>
+                                    </select>
+                                    <small class="text-danger" id="user_id-alert"></small>
+                                </div> --}}
                             </form>
                         </div>
                     </div>
@@ -182,6 +196,7 @@
 
 @section('script')
     <script>
+
         // Global variabel
         let payload = {
             id : null ,

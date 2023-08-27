@@ -32,7 +32,7 @@
                                 <th>phone</th>
                                 <th>email</th>
                                 <th>location</th>
-                                <th>aksi</th>
+                                <th style="width: 11%">aksi</th>
                             </tr>
                         </thead>
                         <tbody>

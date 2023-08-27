@@ -33,7 +33,7 @@
                                 <th>email</th>
                                 <th>status</th>
                                 <th>paket id</th>
-                                <th>aksi</th>
+                                <th style="width: 11%">aksi</th>
 
                             </tr>
                         </thead>

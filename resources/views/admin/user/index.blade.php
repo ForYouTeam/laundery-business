@@ -31,7 +31,7 @@
                                 <th>name</th>
                                 <th>username</th>
                                 <th>scope</th>
-                                <th style="width: 8%">aksi</th>
+                                <th style="width: 11%">aksi</th>
                             </tr>
                         </thead>
                         <tbody>

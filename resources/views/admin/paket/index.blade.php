@@ -31,7 +31,7 @@
                                 <th>name</th>
                                 <th>description</th>
                                 <th>price</th>
-                                <th>aksi</th>
+                                <th style="width: 11%">aksi</th>
                             </tr>
                         </thead>
                         <tbody>
