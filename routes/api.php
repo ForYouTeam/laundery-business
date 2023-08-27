@@ -9,6 +9,10 @@ use App\Http\Controllers\ReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('v1/dashboard', [DashboardController::class, 'index']);
+
+
 Route::prefix('v1/users')->controller(UserController::class)->group(function () {
     Route::get('/', 'getAllData');
     Route::get('/{id}', 'getDataById');

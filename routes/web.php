@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaundryController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OrderController;
@@ -23,36 +25,92 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', function () {
-    return view('layouts.master');
+// Route::get('/', function () {
+//     return view('layouts.master');
+// });
+
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', function () {
+        return view('auth.login');
+    })->name('login');
+    Route::post('/loginproses', [AuthController::class, 'login']);
 });
 
-Route::controller(UserController::class)->group(function () {
-    Route::get('/users', 'index')->name('user.view');
-});
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/', [DashboardController::class, 'index']);
 
-Route::controller(LaundryController::class)->group(function () {
-    Route::get('/laundrys', 'index')->name('laundry.view');
-    // Route::post('/laundrys/upsert', 'upsertData')->name('laundry.upsert');
-});
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/users', 'index')->name('user.view');
+    });
 
-Route::controller(MemberController::class)->group(function () {
-    Route::get('/members', 'index')->name('member.view');
-    // Route::post('/members/upsert', 'upsertData')->name('member.upsert');
-});
+    Route::controller(LaundryController::class)->group(function () {
+        Route::get('/laundrys', 'index')->name('laundry.view');
+        // Route::post('/laundrys/upsert', 'upsertData')->name('laundry.upsert');
+    });
 
-Route::controller(OrderController::class)->group(function () {
-    Route::get('/orders', 'index')->name('order.view');
-});
+    Route::controller(MemberController::class)->group(function () {
+        Route::get('/members', 'index')->name('member.view');
+        // Route::post('/members/upsert', 'upsertData')->name('member.upsert');
+    });
 
-Route::controller(PaketController::class)->group(function () {
-    Route::get('/pakets', 'index')->name('paket.view');
-});
+    Route::controller(OrderController::class)->group(function () {
+        Route::get('/orders', 'index')->name('order.view');
+    });
 
-Route::controller(PaketController::class)->group(function () {
-    Route::get('/pakets', 'index')->name('paket.view');
-});
+    Route::controller(PaketController::class)->group(function () {
+        Route::get('/pakets', 'index')->name('paket.view');
+    });
 
-Route::controller(ReportController::class)->group(function () {
-    Route::get('/reports', 'index')->name('report.view');
+    Route::controller(PaketController::class)->group(function () {
+        Route::get('/pakets', 'index')->name('paket.view');
+    });
+
+    Route::controller(ReportController::class)->group(function () {
+        Route::get('/reports', 'index')->name('report.view');
+    });
+
+    Route::prefix('v1/users')->controller(UserController::class)->group(function () {
+        Route::get('/', 'getAllData');
+        Route::get('/{id}', 'getDataById');
+        Route::post('/', 'upsertData');
+        Route::delete('/{id}', 'deleteData');
+    });
+
+    Route::prefix('v1/laundrys')->controller(LaundryController::class)->group(function () {
+        Route::get('/', 'getAllData');
+        Route::get('/{id}', 'getDataById');
+        Route::post('/', 'upsertData');
+        Route::delete('/{id}', 'deleteData');
+    });
+
+    Route::prefix('v1/pakets')->controller(PaketController::class)->group(function () {
+        Route::get('/', 'getAllData');
+        Route::get('/{id}', 'getDataById');
+        Route::post('/', 'upsertData');
+        Route::delete('/{id}', 'deleteData');
+    });
+
+    Route::prefix('v1/orders')->controller(OrderController::class)->group(function () {
+        Route::get('/', 'getAllData');
+        Route::get('/{id}', 'getDataById');
+        Route::post('/', 'upsertData');
+        Route::delete('/{id}', 'deleteData');
+    });
+
+    Route::prefix('v1/members')->controller(MemberController::class)->group(function () {
+        Route::get('/', 'getAllData');
+        Route::get('/{id}', 'getDataById');
+        Route::post('/', 'upsertData');
+        Route::delete('/{id}', 'deleteData');
+    });
+
+    Route::prefix('v1/reports')->controller(ReportController::class)->group(function () {
+        Route::get('/', 'getAllData');
+        Route::get('/{id}', 'getDataById');
+        Route::post('/', 'upsertData');
+        Route::delete('/{id}', 'deleteData');
+    });
+
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
