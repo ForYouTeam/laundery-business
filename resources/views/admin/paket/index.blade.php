@@ -35,10 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $d)
-                                {{-- @php
-                                    $no = 1;
-                                @endphp --}}
+                            @foreach ($data['paket'] as $d)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $d->laundry }}</td>
@@ -59,24 +56,24 @@
                         <div class="d-flex justify-content-end mt-4">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
-                                    @if ($data->currentPage() > 1)
+                                    @if ($data['paket']->currentPage() > 1)
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $data->previousPageUrl() }}"
+                                            <a class="page-link" href="{{ $data['paket']->previousPageUrl() }}"
                                                 aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
                                         </li>
                                     @endif
 
-                                    @for ($i = 1; $i <= $data->lastPage(); $i++)
-                                        <li class="page-item {{ $data->currentPage() == $i ? 'active' : '' }}">
-                                            <a class="page-link" href="{{ $data->url($i) }}">{{ $i }}</a>
+                                    @for ($i = 1; $i <= $data['paket']->lastPage(); $i++)
+                                        <li class="page-item {{ $data['paket']->currentPage() == $i ? 'active' : '' }}">
+                                            <a class="page-link" href="{{ $data['paket']->url($i) }}">{{ $i }}</a>
                                         </li>
                                     @endfor
 
-                                    @if ($data->hasMorePages())
+                                    @if ($data['paket']->hasMorePages())
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $data->nextPageUrl() }}" aria-label="Next">
+                                            <a class="page-link" href="{{ $data['paket']->nextPageUrl() }}" aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
                                         </li>
@@ -110,9 +107,12 @@
                     <form id="form-paket">
                         <div class="form-group">
                             <label for="laundry">Laundry</label>
-                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
-                                class="form-control" id="laundry" name="laundry">
-                            <small class="text-danger" id="laundry-alert"></small>
+                            <select id="laundry_id" class="form-control">
+                                <option value="" selected disabled>--pilih laundry--</option>
+                                @foreach ($data['laundry'] as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -137,7 +137,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        onclick="clearAlert()">Close</button>
+                        onclick="clearPayload()">Close</button>
                     <button type="button" class="btn btn-primary" onclick="sendPayload()">Tambah</button>
                 </div>
             </div>
@@ -149,7 +149,7 @@
         // Global variabel
         let payload = {
             id: null,
-            laundry: '',
+            laundry_id: '',
             name: '',
             description: '',
             price: '',
@@ -206,6 +206,7 @@
         }
 
         const clearPayload = async () => {
+            clearAlert()
             for (const key in payload) {
                 // // Hilangkan untuk tabel lainnya
                 if (key === "id") {

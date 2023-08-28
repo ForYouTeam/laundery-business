@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('paket', function (Blueprint $table) {
             $table->id();
-            $table->string('laundry', 11);
+            $table->foreignId('laundry_id')->constrained('laundry')->onDelete('cascade');
             $table->string('name', 150);
             $table->text('description');
             $table->integer('price');
