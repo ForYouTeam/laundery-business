@@ -12,12 +12,12 @@ use Illuminate\Http\Request;
 
 class PaketController extends Controller
 {
-    private Laundry $laundryModel ;
-    private PaketContract $paketRepo ;
+    private Laundry $laundryModel;
+    private PaketContract $paketRepo;
     public function __construct()
     {
-        $this->laundryModel = new Laundry() ;
-        $this->paketRepo = new PaketRepository ;
+        $this->laundryModel = new Laundry();
+        $this->paketRepo = new PaketRepository;
     }
 
     public function index(Request $request)
