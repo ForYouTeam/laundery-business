@@ -70,47 +70,5 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/reports', 'index')->name('report.view');
     });
 
-    Route::prefix('v1/users')->controller(UserController::class)->group(function () {
-        Route::get('/', 'getAllData');
-        Route::get('/{id}', 'getDataById');
-        Route::post('/', 'upsertData');
-        Route::delete('/{id}', 'deleteData');
-    });
-
-    Route::prefix('v1/laundrys')->controller(LaundryController::class)->group(function () {
-        Route::get('/', 'getAllData');
-        Route::get('/{id}', 'getDataById');
-        Route::post('/', 'upsertData');
-        Route::delete('/{id}', 'deleteData');
-    });
-
-    Route::prefix('v1/pakets')->controller(PaketController::class)->group(function () {
-        Route::get('/', 'getAllData');
-        Route::get('/{id}', 'getDataById');
-        Route::post('/', 'upsertData');
-        Route::delete('/{id}', 'deleteData');
-    });
-
-    Route::prefix('v1/orders')->controller(OrderController::class)->group(function () {
-        Route::get('/', 'getAllData');
-        Route::get('/{id}', 'getDataById');
-        Route::post('/', 'upsertData');
-        Route::delete('/{id}', 'deleteData');
-    });
-
-    Route::prefix('v1/members')->controller(MemberController::class)->group(function () {
-        Route::get('/', 'getAllData');
-        Route::get('/{id}', 'getDataById');
-        Route::post('/', 'upsertData');
-        Route::delete('/{id}', 'deleteData');
-    });
-
-    Route::prefix('v1/reports')->controller(ReportController::class)->group(function () {
-        Route::get('/', 'getAllData');
-        Route::get('/{id}', 'getDataById');
-        Route::post('/', 'upsertData');
-        Route::delete('/{id}', 'deleteData');
-    });
-
     Route::post('/logout', [AuthController::class, 'logout']);
 });
