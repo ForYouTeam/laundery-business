@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('report', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('member_id')->nullable()->constrained('member')->onDelete('set null');
+            $table->foreignId('member_id')->nullable()->constrained('member')->onDelete('cascade');
             $table->integer('total_order');
             $table->integer('progress');
             $table->integer('canceled');

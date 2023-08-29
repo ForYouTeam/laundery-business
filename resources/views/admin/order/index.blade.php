@@ -16,7 +16,7 @@
                 </div>
                 <!-- Tombol Tambah Data ditempatkan di bawah judul -->
                 <div class="card-header">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addOrderModal">
+                    <button type="button" class="btn btn-outline-primary" id="btn-add">
                         Tambah Data
                     </button>
                 </div>
@@ -32,20 +32,20 @@
                                 <th>phone</th>
                                 <th>email</th>
                                 <th>status</th>
-                                <th>paket id</th>
+                                <th>paket</th>
                                 <th style="width: 11%">aksi</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $d)
+                            @foreach ($data['order'] as $d)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $d->costumer }}</td>
                                     <td>{{ $d->phone }}</td>
                                     <td>{{ $d->email }}</td>
                                     <td>{{ $d->status }}</td>
-                                    <td>{{ $d->paket_id }}</td>
+                                    <td>{{ $d->paket }}</td>
                                     <td>
                                         <button type="button" data-id="{{ $d->id }}" data-row="{{ $d }}"
                                             class="btn btn-outline-primary btn-sm btn-edit">Edit</button>
@@ -61,24 +61,26 @@
                         <div class="d-flex justify-content-end mt-4">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
-                                    @if ($data->currentPage() > 1)
+                                    @if ($data['order']->currentPage() > 1)
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $data->previousPageUrl() }}"
+                                            <a class="page-link" href="{{ $data['order']->previousPageUrl() }}"
                                                 aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
                                         </li>
                                     @endif
 
-                                    @for ($i = 1; $i <= $data->lastPage(); $i++)
-                                        <li class="page-item {{ $data->currentPage() == $i ? 'active' : '' }}">
-                                            <a class="page-link" href="{{ $data->url($i) }}">{{ $i }}</a>
+                                    @for ($i = 1; $i <= $data['order']->lastPage(); $i++)
+                                        <li class="page-item {{ $data['order']->currentPage() == $i ? 'active' : '' }}">
+                                            <a class="page-link"
+                                                href="{{ $data['order']->url($i) }}">{{ $i }}</a>
                                         </li>
                                     @endfor
 
-                                    @if ($data->hasMorePages())
+                                    @if ($data['order']->hasMorePages())
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $data->nextPageUrl() }}" aria-label="Next">
+                                            <a class="page-link" href="{{ $data['order']->nextPageUrl() }}"
+                                                aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
                                         </li>
@@ -108,27 +110,41 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-                    <form>
+                <div class="modal-body">
+
+                    <form id="form-order">
                         <div class="form-group">
                             <label for="costumer">Costumer</label>
-                            <input type="text" class="form-control" id="costumer" name="costumer">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="costumer" name="costumer">
+                            <small class="text-danger" id="costumer-alert"></small>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input type="text" class="form-control" id="phone" name="phone">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="phone" name="phone">
+                            <small class="text-danger" id="phone-alert"></small>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="email" name="email">
+                            <small class="text-danger" id="email-alert"></small>
                         </div>
                         <div class="form-group">
                             <label for="status">Status</label>
-                            <input type="text" class="form-control" id="status" name="status">
+                            <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="status" name="status">
+                            <small class="text-danger" id="status-alert"></small>
                         </div>
                         <div class="form-group">
-                            <label for="paket_id">Peket Id</label>
-                            <input type="text" class="form-control" id="paket_id" name="paket_id">
+                            <label for="paket">Paket</label>
+                            <select id="paket_id" class="form-control">
+                                <option value="" selected disabled>--pilih paket--</option>
+                                @foreach ($data['paket'] as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <!-- Add more form fields for other data -->
                     </form>

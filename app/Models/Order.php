@@ -16,5 +16,20 @@ class Order extends Model
         'status',
         'paket_id',
     ];
-}
 
+    public function scopepaket($query)
+    {
+        return $query
+            ->leftJoin('paket as m0', 'order.paket_id', '=', 'm0.id')
+            ->select(
+                'order.id',
+                'order.costumer',
+                'order.phone',
+                'order.email',
+                'order.status',
+                'order.paket_id',
+                'm0.name as paket'
+
+            );
+    }
+}

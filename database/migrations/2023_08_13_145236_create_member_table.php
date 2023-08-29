@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMemberTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -22,9 +22,8 @@ class CreateMemberTable extends Migration
             $table->string('email', 50);
             $table->foreignId('laundry_id')->constrained('laundry')->onDelete('cascade');
             $table->boolean('verify')->default(false);
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
-
         });
     }
 
@@ -37,4 +36,4 @@ class CreateMemberTable extends Migration
     {
         Schema::dropIfExists('member');
     }
-}
+};

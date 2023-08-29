@@ -18,29 +18,16 @@ class ReportRepository implements ReportContract
         $this->reportModel = new Report();
     }
 
-    public function getAllPayload(array $payload, $perPage = 10)
+    public function getAllPayload(array $payload, $perPage = 5)
     {
         try {
-            $data = $this->reportModel->paginate($perPage);
+            $data = $this->reportModel->member()->paginate($perPage);
 
             return $this->success($data, "success getting data");
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), 500, $th, class_basename($this), __FUNCTION__);
         }
     }
-
-    // public function getAllPayload(array $payload)
-    // {
-    //     try {
-
-    //         $data = $this->reportModel->all();
-
-    //         return $this->success($data, "success getting data");
-    //     } catch (\Throwable $th) {
-
-    //         return $this->error($th->getMessage(), 500, $th, class_basename($this), __FUNCTION__);
-    //     }
-    // }
 
     public function getPayloadById(int $id)
     {

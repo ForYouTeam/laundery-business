@@ -4,33 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Contracts\ReportContract;
 use App\Http\Requests\ReportRequest;
+use App\Models\Member;
+// use App\Models\Report;
 use App\Repositories\ReportRepository;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
+    private Member $memberModel ;
     private ReportContract $reportRepo;
     public function __construct()
     {
+        $this->memberModel = new Member() ;
         $this->reportRepo = new ReportRepository;
     }
 
 
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 5); // Menentukan jumlah item per halaman
+        $perPage = $request->input('per_page', 5);
 
-        $result = $this->reportRepo->getAllPayload([], $perPage);
-        $data = $result['data']; // Ambil data dari hasil payload
+        $result = array(
+            'member' => $this->memberModel->all(),
+            'report' => $this->reportRepo->getAllPayload([], $perPage)['data']
+        );
+        $data = $result;
         return view('admin.report.index')->with('data', $data);
     }
-
-
-    // public function index()
-    // {
-    //     $data = $this->reportRepo->getAllPayload([]);
-    //     return view('admin.report.index')->with('data', $data['data']);
-    // }
 
     public function getAllData()
     {

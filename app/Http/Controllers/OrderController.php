@@ -4,33 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Contracts\OrderContract;
 use App\Http\Requests\OrderRequest;
+use App\Models\Order;
+use App\Models\Paket;
 use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    private Paket $paketModel;
     private OrderContract $orderRepo;
     public function __construct()
     {
+        $this->paketModel = new Paket();
         $this->orderRepo = new OrderRepository;
     }
 
 
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 5); // Menentukan jumlah item per halaman
+        $perPage = $request->input('per_page', 5);
 
-        $result = $this->orderRepo->getAllPayload([], $perPage);
-        $data = $result['data']; // Ambil data dari hasil payload
+        $result = array(
+            'paket' => $this->paketModel->all(),
+            'order' => $this->orderRepo->getAllPayload([], $perPage)['data']
+        );
+        $data = $result;
         return view('admin.order.index')->with('data', $data);
     }
-
-
-    // public function index()
-    // {
-    //     $data = $this->orderRepo->getAllPayload([]);
-    //     return view('admin.order.index')->with('data', $data['data']);
-    // }
 
     public function getAllData()
     {
