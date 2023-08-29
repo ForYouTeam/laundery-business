@@ -28,7 +28,7 @@
                         <thead>
                             <tr>
                                 <th>no</th>
-                                <th>member Id</th>
+                                <th>member</th>
                                 <th>total order</th>
                                 <th>progress</th>
                                 <th>canceled</th>
@@ -40,10 +40,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $d)
+                            @foreach ($data['report'] as $d)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $d->member_id }}</td>
+                                    <td>{{ $d->member }}</td>
                                     <td>{{ $d->total_order }}</td>
                                     <td>{{ $d->progress }}</td>
                                     <td>{{ $d->canceled }}</td>
@@ -65,23 +65,26 @@
                         <div class="d-flex justify-content-end mt-4">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
-                                    @if ($data->currentPage() > 1)
+                                    @if ($data['report']->currentPage() > 1)
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $data->previousPageUrl() }}" aria-label="Previous">
+                                            <a class="page-link" href="{{ $data['report']->previousPageUrl() }}"
+                                                aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
                                         </li>
                                     @endif
 
-                                    @for ($i = 1; $i <= $data->lastPage(); $i++)
-                                        <li class="page-item {{ $data->currentPage() == $i ? 'active' : '' }}">
-                                            <a class="page-link" href="{{ $data->url($i) }}">{{ $i }}</a>
+                                    @for ($i = 1; $i <= $data['report']->lastPage(); $i++)
+                                        <li class="page-item {{ $data['report']->currentPage() == $i ? 'active' : '' }}">
+                                            <a class="page-link"
+                                                href="{{ $data['report']->url($i) }}">{{ $i }}</a>
                                         </li>
                                     @endfor
 
-                                    @if ($data->hasMorePages())
+                                    @if ($data['report']->hasMorePages())
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $data->nextPageUrl() }}" aria-label="Next">
+                                            <a class="page-link" href="{{ $data['report']->nextPageUrl() }}"
+                                                aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
                                         </li>
@@ -110,68 +113,71 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                {{-- <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <form id="form-report">
-                                <div class="form-group">
-                                    <label for="member_id">Member Id</label>
-                                    <input autofocus autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
-                                        class="form-control" id="member_id" name="member_id">
-                                    <small class="text-danger" id="member_id-alert"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label autocomplete="OFF" for="total_order">Total Order</label>
-                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
-                                        id="total_order" name="total_order">
-                                    <small class="text-danger" id="total_order-alert"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label autocomplete="OFF" for="progress">Progress</label>
-                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
-                                        id="progress" name="progress">
-                                    <small class="text-danger" id="progress-alert"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label autocomplete="OFF" for="canceled">Canceled</label>
-                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
-                                        id="canceled" name="canceled">
-                                    <small class="text-danger" id="canceled-alert"></small>
-                                </div>
-                            </form>
+                            <form id="form-report"> --}}
+                <div class="modal-body">
+                    <!-- Add form fields here -->
+                    <form id="form-paket">
+                        <div class="form-group">
+                            <label for="member">Member</label>
+                            <select id="member_id" class="form-control">
+                                <option value="" selected disabled>--pilih member--</option>
+                                @foreach ($data['member'] as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="col-md-6">
-                            <form id="form-report">
-                                <div class="form-group">
-                                    <label autocomplete="OFF" for="done">Done</label>
-                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
-                                        id="done" name="done">
-                                    <small class="text-danger" id="done-alert"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label autocomplete="OFF" for="income">Income</label>
-                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
-                                        id="income" name="income">
-                                    <small class="text-danger" id="income-alert"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label autocomplete="OFF" for="start">Start</label>
-                                    <input placeholder="masukan nilai disini..." type="date" class="form-control"
-                                        id="start" name="start">
-                                    <small class="text-danger" id="start-alert"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label autocomplete="OFF" for="end">End</label>
-                                    <input placeholder="masukan nilai disini..." type="date" class="form-control"
-                                        id="end" name="end">
-                                    <small class="text-danger" id="end-alert"></small>
-                                </div>
-                            </form>
+                        <div class="form-group">
+                            <label for="total_order">Total Order</label>
+                            <input autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="total_order" name="total_order">
+                            <small class="text-danger" id="total_order-alert"></small>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label autocomplete="OFF" for="progress">Progress</label>
+                            <input placeholder="masukan nilai disini..." type="text" class="form-control" id="progress"
+                                name="progress">
+                            <small class="text-danger" id="progress-alert"></small>
+                        </div>
+                        <div class="form-group">
+                            <label autocomplete="OFF" for="canceled">Canceled</label>
+                            <input placeholder="masukan nilai disini..." type="text" class="form-control" id="canceled"
+                                name="canceled">
+                            <small class="text-danger" id="canceled-alert"></small>
+                        </div>
+                        {{--  --}}
+                        <div class="form-group">
+                            <label for="done">Done</label>
+                            <input autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="done" name="done">
+                            <small class="text-danger" id="done-alert"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="income">Income</label>
+                            <input autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                class="form-control" id="income" name="income">
+                            <small class="text-danger" id="income-alert"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="start">Start</label>
+                            <input autocomplete="OFF" placeholder="masukan nilai disini..." type="date"
+                                class="form-control" id="start" name="start">
+                            <small class="text-danger" id="start-alert"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="end">End</label>
+                            <input autocomplete="OFF" placeholder="masukan nilai disini..." type="date"
+                                class="form-control" id="end" name="end">
+                            <small class="text-danger" id="end-alert"></small>
+                        </div>
+                    </form>
                 </div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearPayload()">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="clearPayload()">Close</button>
                     <button type="button" class="btn btn-primary" onclick="sendPayload()">Tambah</button>
                 </div>
             </div>
@@ -182,7 +188,7 @@
     <script>
         // Global variabel
         let payload = {
-            id : null ,
+            id: null,
             member_id: '',
             total_order: '',
             progress: '',
@@ -201,7 +207,7 @@
         })
 
         $(document).on('click', '.btn-edit', function() {
-            let dataId  = $(this).data('id' )
+            let dataId = $(this).data('id')
             let dataRow = $(this).data('row')
 
             payload.id = dataId
@@ -244,6 +250,7 @@
         }
 
         const clearPayload = async () => {
+            clearAlert()
             for (const key in payload) {
                 // // Hilangkan untuk tabel lainnya
                 if (key === "id") {
@@ -295,8 +302,8 @@
                     }
                     if (err.status === 500) {
                         iziToast.error({
-                            title    : 'Maaf Ada Perbaikan' ,
-                            message  : 'Sedang terjadi maintenance pada server',
+                            title: 'Maaf Ada Perbaikan',
+                            message: 'Sedang terjadi maintenance pada server',
                             position: 'topRight'
                         })
                     }
@@ -310,8 +317,8 @@
                 url: `${url}/api/v1/reports/${id}`,
                 success: async (res) => {
                     iziToast.success({
-                        title   : 'Berhasil',
-                        message : 'data telah dihapus',
+                        title: 'Berhasil',
+                        message: 'data telah dihapus',
                         position: 'topRight'
                     });
                     setTimeout(() => {
@@ -323,6 +330,5 @@
                 }
             });
         }
-
     </script>
 @endsection
