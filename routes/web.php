@@ -40,7 +40,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
-    });
+    })->name('dashboard');
     Route::get('/count', [DashboardController::class, 'index']);
 
     Route::controller(UserController::class)->group(function () {
