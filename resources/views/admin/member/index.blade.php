@@ -32,14 +32,14 @@
                                 <th>address</th>
                                 <th>phone</th>
                                 <th>email</th>
-                                <th>laundry Id</th>
+                                <th>laundry</th>
                                 <th>verify</th>
-                                <th>user Id</th>
+                                <th>user</th>
                                 <th style="width: 11%">aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $d)
+                            @foreach ($data['member'] as $d)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $d->name }}</td>
@@ -47,9 +47,9 @@
                                     <td>{{ $d->address }}</td>
                                     <td>{{ $d->phone }}</td>
                                     <td>{{ $d->email }}</td>
-                                    <td>{{ $d->laundry_id }}</td>
+                                    <td>{{ $d->laundry }}</td>
                                     <td>{{ $d->verify }}</td>
-                                    <td>{{ $d->user_id }}</td>
+                                    <td>{{ $d->user }}</td>
                                     <td>
                                         <button type="button" data-id="{{ $d->id }}" data-row="{{ $d }}"
                                             class="btn btn-outline-primary btn-sm btn-edit">Edit</button>
@@ -65,24 +65,26 @@
                         <div class="d-flex justify-content-end mt-4">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
-                                    @if ($data->currentPage() > 1)
+                                    @if ($data['member']->currentPage() > 1)
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $data->previousPageUrl() }}"
+                                            <a class="page-link" href="{{ $data['member']->previousPageUrl() }}"
                                                 aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
                                         </li>
                                     @endif
 
-                                    @for ($i = 1; $i <= $data->lastPage(); $i++)
-                                        <li class="page-item {{ $data->currentPage() == $i ? 'active' : '' }}">
-                                            <a class="page-link" href="{{ $data->url($i) }}">{{ $i }}</a>
+                                    @for ($i = 1; $i <= $data['member']->lastPage(); $i++)
+                                        <li class="page-item {{ $data['member']->currentPage() == $i ? 'active' : '' }}">
+                                            <a class="page-link"
+                                                href="{{ $data['member']->url($i) }}">{{ $i }}</a>
                                         </li>
                                     @endfor
 
-                                    @if ($data->hasMorePages())
+                                    @if ($data['member']->hasMorePages())
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $data->nextPageUrl() }}" aria-label="Next">
+                                            <a class="page-link" href="{{ $data['member']->nextPageUrl() }}"
+                                                aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
                                         </li>
@@ -122,21 +124,21 @@
                                     <small class="text-danger" id="name-alert"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label autocomplete="OFF" for="nik">Nik</label>
-                                    <input placeholder="masukan nilai disini..." type="number" class="form-control"
-                                        id="nik" name="nik">
+                                    <label for="nik">Nik</label>
+                                    <input autocomplete="OFF" placeholder="masukan nilai disini..." type="number"
+                                        class="form-control" id="nik" name="nik">
                                     <small class="text-danger" id="nik-alert"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label autocomplete="OFF" for="address">Address</label>
-                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
-                                        id="address" name="address">
+                                    <label for="address">Address</label>
+                                    <input autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                        class="form-control" id="address" name="address">
                                     <small class="text-danger" id="address-alert"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label autocomplete="OFF" for="phone">Phone</label>
-                                    <input placeholder="masukan nilai disini..." type="number" class="form-control"
-                                        id="phone" name="phone">
+                                    <label for="phone">Phone</label>
+                                    <input autocomplete="OFF" placeholder="masukan nilai disini..." type="number"
+                                        class="form-control" id="phone" name="phone">
                                     <small class="text-danger" id="phone-alert"></small>
                                 </div>
                             </form>
@@ -144,49 +146,42 @@
                         <div class="col-md-6">
                             <form id="form-member">
                                 <div class="form-group">
-                                    <label autocomplete="OFF" for="email">Email</label>
-                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
-                                        id="email" name="email">
+                                    <label for="email">Email</label>
+                                    <input autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                        class="form-control" id="email" name="email">
                                     <small class="text-danger" id="email-alert"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label autocomplete="OFF" for="laundry_id">Laundry Id</label>
-                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
-                                        id="laundry_id" name="laundry_id">
-                                    <small class="text-danger" id="laundry_id-alert"></small>
-                                </div>
-                                {{-- <div class="form-group">
-                                    <label for="laundry_id">ID Laundry</label>
-                                    <select class="form-control" id="laundry_id" name="laundry_id">
-                                        <option value="">Pilih Laundry</option>
+                                    <label for="laundry">Laundry</label>
+                                    <select id="laundry_id" class="form-control">
+                                        <option value="" selected disabled>--pilih laundry--</option>
+                                        @foreach ($data['laundry'] as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
                                     </select>
-                                    <small class="text-danger" id="laundry_id-alert"></small>
-                                </div> --}}
+                                </div>
                                 <div class="form-group">
-                                    <label autocomplete="OFF" for="verify">Verify</label>
-                                    <input placeholder="masukan nilai disini..." type="text" class="form-control"
-                                        id="verify" name="verify">
+                                    <label for="verify">Verify</label>
+                                    <input autocomplete="OFF" placeholder="masukan nilai disini..." type="text"
+                                        class="form-control" id="verify" name="verify">
                                     <small class="text-danger" id="verify-alert"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label autocomplete="OFF" for="user_id">User Id</label>
-                                    <input placeholder="masukan nilai disini..." type="number" class="form-control"
-                                        id="user_id" name="user_id">
-                                    <small class="text-danger" id="user_id-alert"></small>
-                                </div>
-                                {{-- <div class="form-group">
-                                    <label for="user_id">ID Pengguna</label>
-                                    <select class="form-control" id="user_id" name="user_id">
-                                        <option value="">Pilih Pengguna</option>
+                                    <label for="user_id">User Id</label>
+                                    <select id="user_id" class="form-control">
+                                        <option value="" selected disabled>--pilih user--</option>
+                                        @foreach ($data['user'] as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
                                     </select>
-                                    <small class="text-danger" id="user_id-alert"></small>
-                                </div> --}}
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearPayload()">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="clearPayload()">Close</button>
                     <button type="button" class="btn btn-primary" onclick="sendPayload()">Tambah</button>
                 </div>
             </div>
@@ -196,10 +191,9 @@
 
 @section('script')
     <script>
-
         // Global variabel
         let payload = {
-            id : null ,
+            id: null,
             name: '',
             nik: '',
             address: '',
@@ -218,7 +212,7 @@
         })
 
         $(document).on('click', '.btn-edit', function() {
-            let dataId  = $(this).data('id' )
+            let dataId = $(this).data('id')
             let dataRow = $(this).data('row')
 
             payload.id = dataId
@@ -312,8 +306,8 @@
                     }
                     if (err.status === 500) {
                         iziToast.error({
-                            title    : 'Maaf Ada Perbaikan' ,
-                            message  : 'Sedang terjadi maintenance pada server',
+                            title: 'Maaf Ada Perbaikan',
+                            message: 'Sedang terjadi maintenance pada server',
                             position: 'topRight'
                         })
                     }
@@ -327,8 +321,8 @@
                 url: `${url}/api/v1/members/${id}`,
                 success: async (res) => {
                     iziToast.success({
-                        title   : 'Berhasil',
-                        message : 'data telah dihapus',
+                        title: 'Berhasil',
+                        message: 'data telah dihapus',
                         position: 'topRight'
                     });
                     setTimeout(() => {
@@ -340,6 +334,5 @@
                 }
             });
         }
-
     </script>
 @endsection
