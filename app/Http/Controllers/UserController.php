@@ -41,7 +41,7 @@ class UserController extends Controller
     public function upsertData(UserRequest $request)
     {
         $id = $request->id | null;
-        $result = $this->userRepo->upsertPayload($id, $request->all());
+        $result = $this->userRepo->upsertPayload($id, $request->except('password_confirmation'));
 
         return response()->json($result, $result['code']);
     }

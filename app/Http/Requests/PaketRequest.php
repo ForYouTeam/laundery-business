@@ -16,7 +16,7 @@ class PaketRequest extends FormRequest
     public function rules()
     {
         return [
-            'laundry' => 'required|max:11',
+            'laundry_id' => 'required',
             'name' => 'required|max:150',
             'description' => 'required',
             'price' => 'required',
