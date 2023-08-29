@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li class="nav-item {{ Route::is('user.view') ? 'menu-open' : '' }}">
-                <a href="{{route('user.view')}}" class="nav-link {{ Route::is('user.view') ? 'active' : '' }}">
+                <a href="{{ route('user.view') }}" class="nav-link {{ Route::is('user.view') ? 'active' : '' }}">
                     <i class="fas fa-user nav-icon"></i>
                     <p>
                         User
@@ -32,7 +32,7 @@
                 </a>
             </li>
             <li class="nav-item {{ Route::is('laundry.view') ? 'menu-open' : '' }}">
-                <a href="{{route('laundry.view')}}" class="nav-link {{ Route::is('laundry.view') ? 'active' : '' }}">
+                <a href="{{ route('laundry.view') }}" class="nav-link {{ Route::is('laundry.view') ? 'active' : '' }}">
                     <i class="fas fa-tshirt nav-icon"></i>
                     <p>
                         Laundry
@@ -41,7 +41,7 @@
                 </a>
             </li>
             <li class="nav-item {{ Route::is('paket.view') ? 'menu-open' : '' }}">
-                <a href="{{route('paket.view')}}" class="nav-link {{ Route::is('paket.view') ? 'active' : '' }}">
+                <a href="{{ route('paket.view') }}" class="nav-link {{ Route::is('paket.view') ? 'active' : '' }}">
                     <i class="fas fa-box nav-icon"></i>
                     <p>
                         Paket
@@ -50,7 +50,7 @@
                 </a>
             </li>
             <li class="nav-item {{ Route::is('order.view') ? 'menu-open' : '' }}">
-                <a href="{{route('order.view')}}" class="nav-link {{ Route::is('order.view') ? 'active' : '' }}">
+                <a href="{{ route('order.view') }}" class="nav-link {{ Route::is('order.view') ? 'active' : '' }}">
                     <i class="fas fa-shopping-cart nav-icon"></i>
                     <p>
                         Order
@@ -59,7 +59,7 @@
                 </a>
             </li>
             <li class="nav-item {{ Route::is('member.view') ? 'menu-open' : '' }}">
-                <a href="{{route('member.view')}}" class="nav-link {{ Route::is('member.view') ? 'active' : '' }}">
+                <a href="{{ route('member.view') }}" class="nav-link {{ Route::is('member.view') ? 'active' : '' }}">
                     <i class="fas fa-users nav-icon"></i>
                     <p>
                         Member
@@ -67,14 +67,17 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item {{Route::is('report.view') ? 'menu-open' : ''}}">
-                <a href="{{route('report.view')}}" class="nav-link {{Route::is('report.view') ? 'active' : ''}}">
+            <li class="nav-item {{ Route::is('report.view') ? 'menu-open' : '' }}">
+                <a href="{{ route('report.view') }}" class="nav-link {{ Route::is('report.view') ? 'active' : '' }}">
                     <i class="fas fa-chart-bar nav-icon"></i>
                     <p>
                         Report
                         {{-- <span class="right badge badge-danger">New</span> --}}
                     </p>
                 </a>
+            </li>
+            <li class="nav-item">
+                <button id="btnLogout" class="btn btn-outline-danger">Log Out</button>
             </li>
         </ul>
     </nav>

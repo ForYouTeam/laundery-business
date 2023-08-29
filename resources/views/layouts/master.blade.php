@@ -32,7 +32,8 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('AdminLTE-master') }}/plugins/summernote/summernote-bs4.min.css">
     <link rel="stylesheet" href="{{ asset('iziToast/css/iziToast.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css" integrity="sha256-VJuwjrIWHWsPSEvQV4DiPfnZi7axOaiWwKfXaJnR5tA=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css"
+        integrity="sha256-VJuwjrIWHWsPSEvQV4DiPfnZi7axOaiWwKfXaJnR5tA=" crossorigin="anonymous">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -110,7 +111,41 @@
     <script src="{{ 'AdminLTE-master' }}/dist/js/pages/dashboard.js"></script>
     <script src="{{ asset('iziToast/js/iziToast.js') }}"></script>
     <script src="{{ asset('js/PostAction.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js" integrity="sha256-S/HO+Ru8zrLDmcjzwxjl18BQYDCvFDD7mPrwJclX6U8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+    <script>
+        const urlLogout = 'logout'
+        $(document).ready(function() {
+            $('#btnLogout').click(function(e) {
+                Swal.fire({
+                    title: 'Yakin ingin Logout?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel',
+                    resolveButton: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        e.preventDefault();
+                        $.ajax({
+                            url: `{{ url('${urlLogout}') }}`,
+                            method: 'POST',
+                            dataType: 'json',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                localStorage.removeItem('access_token');
+                                window.location.href = '/login';
+                            },
+                            error: function(xhr, status, error) {
+                                alert('Error: Failed to logout. Please try again.');
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
     @yield('script')
 </body>
 
