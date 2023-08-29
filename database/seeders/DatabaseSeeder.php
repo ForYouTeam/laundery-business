@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
         // ]);
         User::create(array(
             'id' => rand(100, 500),
-            'name' => 'Loundry Ipang',
-            'username' => 'ipangloundry',
+            'name' => 'Super Admin',
+            'username' => 'superadmin',
             'scope' => 'admin',
-            'password' => Hash::make('testing123'),
+            'password' => Hash::make('sup3r4dm1n'),
         ));
     }
 }
