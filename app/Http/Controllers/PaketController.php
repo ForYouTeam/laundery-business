@@ -2,33 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\LaundryContract;
 use App\Contracts\PaketContract;
 use App\Http\Requests\PaketRequest;
+use App\Models\Laundry;
+use App\Repositories\LaundryRepository;
 use App\Repositories\PaketRepository;
 use Illuminate\Http\Request;
 
 class PaketController extends Controller
 {
-    private PaketContract $paketRepo;
+    private Laundry $laundryModel ;
+    private PaketContract $paketRepo ;
     public function __construct()
     {
-        $this->paketRepo = new PaketRepository;
+        $this->laundryModel = new Laundry() ;
+        $this->paketRepo = new PaketRepository ;
     }
 
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 5); // Menentukan jumlah item per halaman
+        $perPage = $request->input('per_page', 5);
 
-        $result = $this->paketRepo->getAllPayload([], $perPage);
-        $data = $result['data']; // Ambil data dari hasil payload
+        $result = array(
+            'laundry' => $this->laundryModel->all(),
+            'paket' => $this->paketRepo->getAllPayload([], $perPage)['data']
+        );
+        $data = $result;
         return view('admin.paket.index')->with('data', $data);
     }
-
-    // public function index()
-    // {
-    //     $data = $this->paketRepo->getAllPayload([]);
-    //     return view('admin.paket.index')->with('data', $data['data']);
-    // }
 
     public function getAllData()
     {
