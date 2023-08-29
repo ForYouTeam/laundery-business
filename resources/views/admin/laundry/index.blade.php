@@ -26,7 +26,7 @@
                     <table id="userTable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>id</th>
+                                <th>no</th>
                                 <th>name</th>
                                 <th>address</th>
                                 <th>phone</th>

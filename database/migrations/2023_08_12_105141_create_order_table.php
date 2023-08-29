@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone', 13);
             $table->string('email', 50)->nullable();
             $table->string('status', 25);
-            $table->string('paket_id', 11);
+            $table->foreignId('paket_id')->constrained('paket')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -22,26 +22,13 @@ class OrderRepository implements OrderContract
     public function getAllPayload(array $payload, $perPage = 5)
     {
         try {
-            $data = $this->orderModel->paginate($perPage);
+            $data = $this->orderModel->paket()->paginate($perPage);
 
             return $this->success($data, "success getting data");
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), 500, $th, class_basename($this), __FUNCTION__);
         }
     }
-
-    // public function getAllPayload(array $payload)
-    // {
-    //     try {
-
-    //         $data = $this->orderModel->all();
-
-    //         return $this->success($data, "success getting data");
-    //     } catch (\Throwable $th) {
-
-    //         return $this->error($th->getMessage(), 500, $th, class_basename($this), __FUNCTION__);
-    //     }
-    // }
 
     public function getPayloadById(int $id)
     {
