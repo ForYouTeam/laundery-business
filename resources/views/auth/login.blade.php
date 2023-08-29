@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Log in</title>
+    <link rel="icon" href="{{ asset('AdminLTE-master') }}/dist/img/logoadmin.png" type="image/png">
+    <title>LOUNDRY BUSSINESS</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
