@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             'id' => rand(100, 500),
             'name' => 'Super Admin',
             'username' => 'superadmin',
-            'scope' => 'admin',
+            'scope' => 'superadmin',
             'password' => Hash::make('sup3r4dm1n'),
         ));
     }
